@@ -27,7 +27,7 @@ export default function ProductLandingPage({
     phone: '',
     address: '',
     city: '',
-    paymentMethod: 'Corporate Invoice / Wire',
+    paymentMethod: 'bKash',
   });
   const [orderError, setOrderError] = useState('');
 
@@ -322,29 +322,150 @@ export default function ProductLandingPage({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-2">
                       Payment Method
                     </label>
-                    <select
-                      value={orderDetails.paymentMethod}
-                      onChange={(e) =>
-                        setOrderDetails({
-                          ...orderDetails,
-                          paymentMethod: e.target.value,
-                        })
-                      }
-                      className="w-full px-3.5 py-2.5 text-sm rounded-lg border border-slate-300 bg-white focus:border-[#0066FF] focus:outline-none"
-                    >
-                      <option value="Corporate Invoice / Wire">
-                        Corporate Invoice / Wire Transfer (Net-30)
-                      </option>
-                      <option value="Enterprise Credit Card">
-                        Enterprise Credit Card / Purchase Order
-                      </option>
-                      <option value="Cash on Delivery / Facility Inspection">
-                        Pay on Facility Delivery & Calibration
-                      </option>
-                    </select>
+                    <div className="grid grid-cols-3 gap-3">
+                      {/* bKash Option */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setOrderDetails({
+                            ...orderDetails,
+                            paymentMethod: 'bKash',
+                          })
+                        }
+                        className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border transition-all cursor-pointer bg-white ${
+                          orderDetails.paymentMethod === 'bKash'
+                            ? 'border-[#E2136E] ring-2 ring-[#E2136E]/15 shadow-xs'
+                            : 'border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <div className="w-9 h-9 rounded-lg bg-[#E2136E] flex items-center justify-center shrink-0">
+                          <svg
+                            viewBox="0 0 64 64"
+                            className="w-6 h-6"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <polygon
+                              points="10,10 30,13 25,31"
+                              fill="#FFFFFF"
+                            />
+                            <polygon
+                              points="31,13 46,34 26,31"
+                              fill="#FFFFFF"
+                            />
+                            <polygon
+                              points="26,32 46,35 28,44"
+                              fill="#FFFFFF"
+                            />
+                            <polygon
+                              points="25,32 28,46 19,54"
+                              fill="#FFFFFF"
+                            />
+                            <polygon
+                              points="41,25 51,23 47,34"
+                              fill="#FFFFFF"
+                            />
+                            <polygon
+                              points="52,23 57,28 50,28"
+                              fill="#FFFFFF"
+                            />
+                          </svg>
+                        </div>
+                        <span className="text-xs font-bold text-slate-800">
+                          bKash
+                        </span>
+                      </button>
+
+                      {/* Nagad Option */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setOrderDetails({
+                            ...orderDetails,
+                            paymentMethod: 'Nagad',
+                          })
+                        }
+                        className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border transition-all cursor-pointer bg-white ${
+                          orderDetails.paymentMethod === 'Nagad'
+                            ? 'border-[#ED1C24] ring-2 ring-[#ED1C24]/15 shadow-xs'
+                            : 'border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <div className="h-9 flex items-center justify-center gap-1.5 shrink-0">
+                          <svg
+                            viewBox="0 0 48 48"
+                            className="w-8 h-8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <circle
+                              cx="24"
+                              cy="26"
+                              r="15"
+                              stroke="#ED1C24"
+                              strokeWidth="4"
+                            />
+                            <circle
+                              cx="24"
+                              cy="26"
+                              r="11.5"
+                              stroke="#F7941D"
+                              strokeWidth="4"
+                            />
+                            <path
+                              d="M14 22C15 13 22 9 29 10L26 17C21 16 17 19 14 22Z"
+                              fill="#F7941D"
+                            />
+                            <path
+                              d="M22 14C26 10 32 10 36 13L33 19C29 17 25 17 22 14Z"
+                              fill="#ED1C24"
+                            />
+                            <path
+                              d="M27 18C32 16 38 17 41 21L36 26C33 23 30 21 27 18Z"
+                              fill="#F7941D"
+                            />
+                          </svg>
+                          <span className="text-sm font-extrabold text-[#ED1C24] leading-none">
+                            নগদ
+                          </span>
+                        </div>
+                        <span className="text-xs font-bold text-slate-800">
+                          Nagad
+                        </span>
+                      </button>
+
+                      {/* VISA Option */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setOrderDetails({
+                            ...orderDetails,
+                            paymentMethod: 'VISA',
+                          })
+                        }
+                        className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border transition-all cursor-pointer bg-white ${
+                          orderDetails.paymentMethod === 'VISA'
+                            ? 'border-[#1A1F71] ring-2 ring-[#1A1F71]/15 shadow-xs'
+                            : 'border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <div className="h-9 flex flex-col items-center justify-center shrink-0">
+                          <span className="text-[13px] font-black italic tracking-wider text-[#1A1F71] leading-none">
+                            VISA
+                          </span>
+                          <div className="flex items-center -space-x-1.5 mt-1">
+                            <span className="w-3.5 h-3.5 rounded-full bg-[#EB001B] inline-block" />
+                            <span className="w-3.5 h-3.5 rounded-full bg-[#F79E1B]/90 inline-block" />
+                          </div>
+                        </div>
+                        <span className="text-xs font-bold text-slate-800">
+                          VISA
+                        </span>
+                      </button>
+                    </div>
                   </div>
 
                   <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-sm">
