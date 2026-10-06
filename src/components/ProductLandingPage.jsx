@@ -2,13 +2,22 @@ import React, { useState } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
+  Check,
   CheckCircle2,
+  Copy,
   Minus,
   Plus,
+  Send,
   ShieldCheck,
   ShoppingBag,
+  X,
 } from 'lucide-react';
 import ResilientImage from './ResilientImage.jsx';
+
+const SEND_MONEY_NUMBERS = {
+  bKash: '01711-849200',
+  Nagad: '01819-540320',
+};
 
 export default function ProductLandingPage({
   product,
@@ -28,11 +37,81 @@ export default function ProductLandingPage({
     address: '',
     city: '',
     paymentMethod: 'bKash',
+    senderNumber: '',
+    transactionId: '',
+    cardNumber: '',
+    cardExpiry: '',
+    cardCvc: '',
   });
   const [orderError, setOrderError] = useState('');
+  const [copiedNumber, setCopiedNumber] = useState(false);
+
+  // Interactive Send Money Gateway Modal State
+  const [sendMoneyModalOpen, setSendMoneyModalOpen] = useState(false);
+  const [gatewayPin, setGatewayPin] = useState('');
+  const [gatewayError, setGatewayError] = useState('');
+  const [sendMoneyCompleted, setSendMoneyCompleted] = useState(false);
 
   const activeTier = product.tiers[selectedTierIndex] || product.tiers[0];
   const totalAmount = activeTier ? activeTier.price * quantity : 0;
+
+  const isMobileMoney =
+    orderDetails.paymentMethod === 'bKash' ||
+    orderDetails.paymentMethod === 'Nagad';
+  const activeMerchantNumber =
+    SEND_MONEY_NUMBERS[orderDetails.paymentMethod] || '01711-849200';
+
+  const handleCopyNumber = (num) => {
+    if (navigator?.clipboard) {
+      navigator.clipboard.writeText(num.replace(/-/g, ''));
+    }
+    setCopiedNumber(true);
+    setTimeout(() => setCopiedNumber(false), 2000);
+  };
+
+  const handleCompleteSendMoney = () => {
+    if (
+      !orderDetails.senderNumber.trim() ||
+      orderDetails.senderNumber.trim().length < 11
+    ) {
+      setGatewayError(
+        `Please enter your 11-digit ${orderDetails.paymentMethod} number first (e.g. 017XXXXXXXX).`
+      );
+      return;
+    }
+    const prefix = orderDetails.paymentMethod === 'bKash' ? 'BKS' : 'NGD';
+    const generatedTrx =
+      orderDetails.transactionId.trim() ||
+      `${prefix}${Math.floor(1000000 + Math.random() * 9000000)}X`;
+    setOrderDetails({
+      ...orderDetails,
+      transactionId: generatedTrx,
+    });
+    setGatewayError('');
+    setSendMoneyCompleted(true);
+  };
+
+  const handleSavePopupPayment = () => {
+    if (
+      !orderDetails.senderNumber.trim() ||
+      orderDetails.senderNumber.trim().length < 11
+    ) {
+      setGatewayError(
+        `Please enter your ${orderDetails.paymentMethod} number (e.g. 017XXXXXXXX).`
+      );
+      return;
+    }
+    if (!orderDetails.transactionId.trim()) {
+      setGatewayError(
+        'Please enter your Transaction ID (TrxID) or click "Send Money Now".'
+      );
+      return;
+    }
+    setGatewayError('');
+    setSendMoneyCompleted(true);
+    setSendMoneyModalOpen(false);
+    setOrderConfirmed(true);
+  };
 
   const handleOrderSubmit = (e) => {
     e.preventDefault();
@@ -47,6 +126,11 @@ export default function ProductLandingPage({
       return;
     }
     setOrderError('');
+    if (isMobileMoney) {
+      setGatewayError('');
+      setSendMoneyModalOpen(true);
+      return;
+    }
     setOrderConfirmed(true);
   };
 
@@ -329,12 +413,13 @@ export default function ProductLandingPage({
                       {/* bKash Option */}
                       <button
                         type="button"
-                        onClick={() =>
+                        onClick={() => {
                           setOrderDetails({
                             ...orderDetails,
                             paymentMethod: 'bKash',
-                          })
-                        }
+                          });
+                          setOrderError('');
+                        }}
                         className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border transition-all cursor-pointer bg-white ${
                           orderDetails.paymentMethod === 'bKash'
                             ? 'border-[#E2136E] ring-2 ring-[#E2136E]/15 shadow-xs'
@@ -382,12 +467,13 @@ export default function ProductLandingPage({
                       {/* Nagad Option */}
                       <button
                         type="button"
-                        onClick={() =>
+                        onClick={() => {
                           setOrderDetails({
                             ...orderDetails,
                             paymentMethod: 'Nagad',
-                          })
-                        }
+                          });
+                          setOrderError('');
+                        }}
                         className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border transition-all cursor-pointer bg-white ${
                           orderDetails.paymentMethod === 'Nagad'
                             ? 'border-[#ED1C24] ring-2 ring-[#ED1C24]/15 shadow-xs'
@@ -440,12 +526,13 @@ export default function ProductLandingPage({
                       {/* VISA Option */}
                       <button
                         type="button"
-                        onClick={() =>
+                        onClick={() => {
                           setOrderDetails({
                             ...orderDetails,
                             paymentMethod: 'VISA',
-                          })
-                        }
+                          });
+                          setSendMoneyModalOpen(false);
+                        }}
                         className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border transition-all cursor-pointer bg-white ${
                           orderDetails.paymentMethod === 'VISA'
                             ? 'border-[#1A1F71] ring-2 ring-[#1A1F71]/15 shadow-xs'
@@ -466,6 +553,92 @@ export default function ProductLandingPage({
                         </span>
                       </button>
                     </div>
+
+                    {/* Compact summary badge if bKash/Nagad details were entered in popup */}
+                    {isMobileMoney &&
+                      orderDetails.senderNumber &&
+                      orderDetails.transactionId && (
+                        <div className="mt-2.5 px-3.5 py-2 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-between gap-2 text-xs">
+                          <div className="flex items-center gap-2 text-emerald-800 font-semibold">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                            <span>
+                              {orderDetails.paymentMethod}:{' '}
+                              {orderDetails.senderNumber} · TrxID:{' '}
+                              {orderDetails.transactionId}
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setSendMoneyModalOpen(true)}
+                            className="text-[#0066FF] font-bold hover:underline cursor-pointer"
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      )}
+
+                    {/* VISA Card Input Panel */}
+                    {orderDetails.paymentMethod === 'VISA' && (
+                      <div className="mt-3 p-4 rounded-xl border border-slate-200 bg-white space-y-3">
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">
+                            Card Number *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={orderDetails.cardNumber}
+                            onChange={(e) =>
+                              setOrderDetails({
+                                ...orderDetails,
+                                cardNumber: e.target.value,
+                              })
+                            }
+                            placeholder="4532 •••• •••• 8891"
+                            className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white focus:border-[#0066FF] focus:outline-none tabular-nums"
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-xs font-semibold text-slate-700 mb-1">
+                              Expiry Date *
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              value={orderDetails.cardExpiry}
+                              onChange={(e) =>
+                                setOrderDetails({
+                                  ...orderDetails,
+                                  cardExpiry: e.target.value,
+                                })
+                              }
+                              placeholder="MM / YY"
+                              className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white focus:border-[#0066FF] focus:outline-none tabular-nums"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-semibold text-slate-700 mb-1">
+                              CVC / CVV *
+                            </label>
+                            <input
+                              type="password"
+                              required
+                              maxLength={4}
+                              value={orderDetails.cardCvc}
+                              onChange={(e) =>
+                                setOrderDetails({
+                                  ...orderDetails,
+                                  cardCvc: e.target.value,
+                                })
+                              }
+                              placeholder="•••"
+                              className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white focus:border-[#0066FF] focus:outline-none tabular-nums"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-sm">
@@ -505,9 +678,13 @@ export default function ProductLandingPage({
                   <strong>
                     {quantity}× {product.title} ({activeTier?.name})
                   </strong>{' '}
-                  totaling <strong>${totalAmount.toLocaleString()}</strong> has
-                  been registered. Dispatch & calibration instructions have been
-                  sent to <strong>{orderDetails.email}</strong>.
+                  totaling <strong>${totalAmount.toLocaleString()}</strong> via{' '}
+                  <strong>{orderDetails.paymentMethod}</strong>
+                  {isMobileMoney && orderDetails.transactionId
+                    ? ` (Sender: ${orderDetails.senderNumber}, TrxID: ${orderDetails.transactionId})`
+                    : ''}{' '}
+                  has been registered. Dispatch & calibration instructions have
+                  been sent to <strong>{orderDetails.email}</strong>.
                 </p>
                 <div className="pt-2 flex flex-wrap gap-3">
                   <button
@@ -627,6 +804,190 @@ export default function ProductLandingPage({
           </div>
         </div>
       </section>
+
+      {/* Popup Modal showing the bKash / Nagad Send Money Card */}
+      {sendMoneyModalOpen && isMobileMoney && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs"
+          onClick={() => setSendMoneyModalOpen(false)}
+        >
+          <div
+            className={`relative w-full max-w-lg rounded-2xl border overflow-hidden bg-white shadow-2xl ${
+              orderDetails.paymentMethod === 'bKash'
+                ? 'border-[#E2136E]/40'
+                : 'border-[#ED1C24]/40'
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Branded Send Money Header Bar */}
+            <div
+              className={`px-5 py-3.5 text-white flex flex-wrap items-center justify-between gap-2 ${
+                orderDetails.paymentMethod === 'bKash'
+                  ? 'bg-[#E2136E]'
+                  : 'bg-gradient-to-r from-[#ED1C24] to-[#F7941D]'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Send className="w-4 h-4 shrink-0" />
+                <span className="text-xs font-extrabold uppercase tracking-wider">
+                  {orderDetails.paymentMethod} Send Money
+                </span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="text-xs font-bold bg-white/20 px-2.5 py-1 rounded-md tabular-nums">
+                  Amount: ${totalAmount.toLocaleString()}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setSendMoneyModalOpen(false)}
+                  className="w-7 h-7 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center text-white cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            <div
+              className={`p-5 space-y-4 ${
+                orderDetails.paymentMethod === 'bKash'
+                  ? 'bg-[#E2136E]/[0.03]'
+                  : 'bg-[#ED1C24]/[0.03]'
+              }`}
+            >
+              {gatewayError && (
+                <div className="p-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
+                  {gatewayError}
+                </div>
+              )}
+
+              {/* Send Money Receiver Number Box */}
+              <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-white border border-slate-200">
+                <div>
+                  <div className="text-[11px] font-semibold text-slate-500">
+                    Send Money To ({orderDetails.paymentMethod} Personal /
+                    Merchant):
+                  </div>
+                  <div className="text-lg font-extrabold text-slate-900 tabular-nums tracking-tight mt-0.5">
+                    {activeMerchantNumber}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleCopyNumber(activeMerchantNumber)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-semibold text-slate-700 cursor-pointer transition-colors"
+                  >
+                    {copiedNumber ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-700">Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>Copy Number</span>
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleCompleteSendMoney}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold text-white cursor-pointer transition-opacity hover:opacity-95 shadow-xs ${
+                      orderDetails.paymentMethod === 'bKash'
+                        ? 'bg-[#E2136E]'
+                        : 'bg-[#ED1C24]'
+                    }`}
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                    <span>Send Money Now</span>
+                  </button>
+                </div>
+              </div>
+
+              <p className="text-xs text-slate-600 leading-relaxed">
+                {orderDetails.paymentMethod === 'bKash'
+                  ? 'Open your bKash App or dial *247# → Select "Send Money" → Enter the number above, or click "Send Money Now" to transfer directly.'
+                  : 'Open your Nagad App or dial *167# → Select "Send Money" → Enter the number above, or click "Send Money Now" to transfer directly.'}
+              </p>
+
+              {sendMoneyCompleted && orderDetails.transactionId && (
+                <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center gap-2 text-xs font-semibold text-emerald-800">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>
+                    {orderDetails.paymentMethod} Send Money of $
+                    {totalAmount.toLocaleString()} verified! (TrxID:{' '}
+                    {orderDetails.transactionId})
+                  </span>
+                </div>
+              )}
+
+              {/* Sender Mobile Number & Transaction ID Inputs */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Your {orderDetails.paymentMethod} Number *
+                  </label>
+                  <input
+                    type="tel"
+                    value={orderDetails.senderNumber}
+                    onChange={(e) =>
+                      setOrderDetails({
+                        ...orderDetails,
+                        senderNumber: e.target.value,
+                      })
+                    }
+                    placeholder="017XXXXXXXX"
+                    className="w-full px-3.5 py-2.5 text-sm rounded-lg border border-slate-300 bg-white focus:border-[#0066FF] focus:outline-none tabular-nums"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Transaction ID (TrxID) *
+                  </label>
+                  <input
+                    type="text"
+                    value={orderDetails.transactionId}
+                    onChange={(e) =>
+                      setOrderDetails({
+                        ...orderDetails,
+                        transactionId: e.target.value.toUpperCase(),
+                      })
+                    }
+                    placeholder={
+                      orderDetails.paymentMethod === 'bKash'
+                        ? 'BKS849201X'
+                        : 'NGD738291X'
+                    }
+                    className="w-full px-3.5 py-2.5 text-sm rounded-lg border border-slate-300 bg-white focus:border-[#0066FF] focus:outline-none uppercase tabular-nums"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-2 flex items-center justify-end gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => setSendMoneyModalOpen(false)}
+                  className="px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-600 cursor-pointer"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSavePopupPayment}
+                  className={`px-5 py-2 rounded-lg text-xs font-bold text-white cursor-pointer transition-opacity hover:opacity-95 shadow-xs ${
+                    orderDetails.paymentMethod === 'bKash'
+                      ? 'bg-[#E2136E]'
+                      : 'bg-[#ED1C24]'
+                  }`}
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
