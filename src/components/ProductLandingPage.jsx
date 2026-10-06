@@ -202,9 +202,27 @@ export default function ProductLandingPage({
               </span>
             </div>
 
-            <p className="text-[15px] text-slate-600 leading-[1.7] mb-8">
+            <p className="text-[15px] text-slate-600 leading-[1.7] mb-6">
               {product.longDescription}
             </p>
+
+            {/* Technical Specifications List */}
+            <div className="border-t border-slate-200 pt-6 mb-8">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
+                Technical Specifications
+              </h2>
+              <ul className="grid grid-cols-1 gap-3">
+                {product.specs.map((spec) => (
+                  <li
+                    key={spec}
+                    className="flex items-start gap-2.5 text-sm text-slate-700"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-[#0066FF] shrink-0 mt-0.5" />
+                    <span>{spec}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             {/* Quantity & Primary Buy Now Action */}
             {!showCheckoutForm && !orderConfirmed && (
@@ -671,24 +689,6 @@ export default function ProductLandingPage({
                 </div>
               </div>
             )}
-
-            {/* Technical Specifications List */}
-            <div className="border-t border-slate-200 pt-7 mb-8">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
-                Technical Specifications
-              </h2>
-              <ul className="grid grid-cols-1 gap-3">
-                {product.specs.map((spec) => (
-                  <li
-                    key={spec}
-                    className="flex items-start gap-2.5 text-sm text-slate-700"
-                  >
-                    <CheckCircle2 className="w-4 h-4 text-[#0066FF] shrink-0 mt-0.5" />
-                    <span>{spec}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
 
             {/* What's in the Box / Package */}
             <div className="border-t border-slate-200 pt-7">
