@@ -49,11 +49,7 @@ export default function Navbar({
               href={`#${item.id}`}
               onClick={(e) => {
                 e.preventDefault();
-                if (item.id === 'contact') {
-                  setShowContactModal(true);
-                } else {
-                  scrollToSection(item.id);
-                }
+                scrollToSection(item.id);
               }}
               className={`transition-colors whitespace-nowrap py-1 ${
                 activeNav === item.id &&
@@ -94,14 +90,7 @@ export default function Navbar({
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => {
-                if (item.id === 'contact') {
-                  setMobileMenuOpen(false);
-                  setShowContactModal(true);
-                } else {
-                  scrollToSection(item.id);
-                }
-              }}
+              onClick={() => scrollToSection(item.id)}
               className="block w-full text-left py-2 text-sm font-medium text-slate-700 hover:text-[#0066FF]"
             >
               {item.label}
