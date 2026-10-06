@@ -206,42 +206,6 @@ export default function ProductLandingPage({
               {product.longDescription}
             </p>
 
-            {/* Configuration / Edition Selector */}
-            <div className="mb-6">
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-3">
-                Select Configuration
-              </label>
-              <div className="grid grid-cols-1 gap-3">
-                {product.tiers.map((tier, idx) => {
-                  const isSelected = selectedTierIndex === idx;
-                  return (
-                    <button
-                      key={tier.name}
-                      type="button"
-                      onClick={() => setSelectedTierIndex(idx)}
-                      className={`w-full text-left p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-4 ${
-                        isSelected
-                          ? 'border-[#0066FF] bg-[#0066FF]/[0.04] shadow-xs'
-                          : 'border-slate-200 hover:border-slate-300 bg-white'
-                      }`}
-                    >
-                      <div>
-                        <div className="text-sm font-bold text-[#0F172A]">
-                          {tier.name}
-                        </div>
-                        <div className="text-xs text-slate-500 mt-0.5">
-                          {tier.summary}
-                        </div>
-                      </div>
-                      <div className="text-base font-extrabold text-[#0066FF] tabular-nums shrink-0">
-                        ${tier.price.toLocaleString()}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
             {/* Quantity & Primary Buy Now Action */}
             {!showCheckoutForm && !orderConfirmed && (
               <div className="mb-10">
@@ -643,7 +607,7 @@ export default function ProductLandingPage({
 
                   <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-sm">
                     <span className="font-semibold text-slate-600">
-                      Order Total ({quantity} × {activeTier?.name}):
+                      Order Total ({quantity} × {product.title}):
                     </span>
                     <span className="text-lg font-extrabold text-[#0066FF] tabular-nums">
                       ${totalAmount.toLocaleString()}
@@ -676,7 +640,7 @@ export default function ProductLandingPage({
                   Thank you, <strong>{orderDetails.fullName}</strong>. Your
                   order for{' '}
                   <strong>
-                    {quantity}× {product.title} ({activeTier?.name})
+                    {quantity}× {product.title}
                   </strong>{' '}
                   totaling <strong>${totalAmount.toLocaleString()}</strong> via{' '}
                   <strong>{orderDetails.paymentMethod}</strong>
