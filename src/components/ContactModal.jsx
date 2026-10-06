@@ -3,35 +3,22 @@ import {
   Mail,
   Phone,
   MapPin,
-  Github,
-  Linkedin,
-  X,
-  Send,
-  Copy,
-  Check,
+  ArrowRight,
   CheckCircle2,
-  ArrowUpRight,
+  ChevronDown,
+  X,
 } from 'lucide-react';
 
 export default function ContactModal({ isOpen, onClose }) {
-  const [copiedField, setCopiedField] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
+    industry: '',
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
 
   if (!isOpen) return null;
-
-  const handleCopy = (text, key) => {
-    if (navigator?.clipboard) {
-      navigator.clipboard.writeText(text);
-    }
-    setCopiedField(key);
-    setTimeout(() => setCopiedField(''), 2000);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,11 +28,11 @@ export default function ContactModal({ isOpen, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-slate-950/50 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-[880px] rounded-[24px] bg-white border border-slate-200/90 shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12"
+        className="relative w-full max-w-[960px] rounded-[28px] bg-[#F7F8FA] border border-slate-200/80 px-6 py-10 sm:px-14 sm:py-14 shadow-2xl text-[#0F172A]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -53,118 +40,80 @@ export default function ContactModal({ isOpen, onClose }) {
           type="button"
           onClick={onClose}
           aria-label="Close contact modal"
-          className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 flex items-center justify-center transition-colors cursor-pointer"
+          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white hover:bg-slate-100 border border-slate-200/80 text-slate-500 hover:text-slate-900 flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
         >
           <X className="w-4 h-4" />
         </button>
 
-        {/* Left Column: Brand Navy & Electric Blue Contact Info */}
-        <div
-          className="md:col-span-5 p-7 sm:p-9 text-white flex flex-col justify-between relative overflow-hidden"
-          style={{
-            background:
-              'radial-gradient(circle at 15% 15%, #0066FF 0%, #0E2963 55%, #081021 100%)',
-          }}
-        >
-          <div>
-            {/* Mini Brand Header */}
-            <div className="inline-flex items-center gap-2 mb-6">
-              <span className="w-6 h-6 rounded-[6px] bg-white/15 border border-white/25 flex items-center justify-center">
-                <span className="w-2.5 h-2.5 rounded-full border-2 border-white" />
-              </span>
-              <span className="text-xs font-bold tracking-wider uppercase text-blue-200">
-                MARKO Robotics
-              </span>
-            </div>
-
-            <h2 className="text-2xl sm:text-[26px] font-extrabold tracking-tight leading-snug text-white mb-3">
-              Let&apos;s build something epic
-            </h2>
-
-            <p className="text-xs sm:text-[13px] text-blue-100/80 leading-relaxed mb-8">
-              If you have a project idea, a position opening, or want to chat
-              about AI integrations and robotics architectures, reach out
-              directly.
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Column: Editorial Heading & Direct Contact Info */}
+          <div className="md:col-span-6 lg:pr-4">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 mb-3">
+              WE&apos;RE HERE TO HELP YOU
             </p>
 
-            {/* Contact Cards */}
-            <div className="space-y-3.5">
-              {/* Direct Email */}
-              <div className="p-3.5 rounded-xl bg-white/[0.08] border border-white/12 hover:bg-white/[0.12] transition-colors flex items-center justify-between gap-3">
-                <a
-                  href="mailto:sajjaduli724@gmail.com"
-                  className="flex items-center gap-3 min-w-0"
-                >
-                  <div className="w-9 h-9 rounded-lg bg-[#0066FF] text-white flex items-center justify-center shrink-0 shadow-xs">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-[11px] font-medium text-blue-200/80">
-                      Direct Email
-                    </div>
-                    <div className="text-xs sm:text-sm font-bold text-white truncate">
-                      sajjaduli724@gmail.com
-                    </div>
-                  </div>
-                </a>
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleCopy('sajjaduli724@gmail.com', 'email')
-                  }
-                  title="Copy email"
-                  className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-blue-100 cursor-pointer shrink-0"
-                >
-                  {copiedField === 'email' ? (
-                    <Check className="w-3.5 h-3.5 text-emerald-300" />
-                  ) : (
-                    <Copy className="w-3.5 h-3.5" />
-                  )}
-                </button>
-              </div>
+            <h2 className="text-[32px] sm:text-[40px] leading-[1.18] tracking-[-0.02em] text-[#0F172A] mb-5">
+              <span className="font-extrabold">Discuss</span>{' '}
+              <span className="font-normal">Your</span>
+              <br />
+              <span className="font-normal">Robotics &amp; AI</span>
+              <br />
+              <span className="font-normal">Solution Needs</span>
+            </h2>
 
-              {/* Phone Hotline */}
-              <div className="p-3.5 rounded-xl bg-white/[0.08] border border-white/12 hover:bg-white/[0.12] transition-colors flex items-center justify-between gap-3">
-                <a
-                  href="tel:01560060092"
-                  className="flex items-center gap-3 min-w-0"
-                >
-                  <div className="w-9 h-9 rounded-lg bg-[#0066FF] text-white flex items-center justify-center shrink-0 shadow-xs">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-[11px] font-medium text-blue-200/80">
-                      Phone Hotline
-                    </div>
-                    <div className="text-xs sm:text-sm font-bold text-white tabular-nums">
-                      01560060092
-                    </div>
-                  </div>
-                </a>
-                <button
-                  type="button"
-                  onClick={() => handleCopy('01560060092', 'phone')}
-                  title="Copy phone"
-                  className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-blue-100 cursor-pointer shrink-0"
-                >
-                  {copiedField === 'phone' ? (
-                    <Check className="w-3.5 h-3.5 text-emerald-300" />
-                  ) : (
-                    <Copy className="w-3.5 h-3.5" />
-                  )}
-                </button>
-              </div>
+            <p className="text-[13.5px] text-slate-500 leading-[1.65] max-w-[360px] mb-9">
+              Are you looking for top-quality AI and robotics solutions tailored
+              to your needs? Reach out to us.
+            </p>
 
-              {/* Headquarters */}
-              <div className="p-3.5 rounded-xl bg-white/[0.08] border border-white/12 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-[#0066FF] text-white flex items-center justify-center shrink-0 shadow-xs">
-                  <MapPin className="w-4 h-4" />
+            {/* Contact Info Rows */}
+            <div className="space-y-5">
+              {/* E-mail */}
+              <a
+                href="mailto:sajjaduli724@gmail.com"
+                className="flex items-center gap-4 group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-[#0066FF]/10 text-[#0066FF] flex items-center justify-center shrink-0 group-hover:bg-[#0066FF] group-hover:text-white transition-colors">
+                  <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-[11px] font-medium text-blue-200/80">
+                  <div className="text-[11.5px] text-slate-400 font-medium">
+                    E-mail
+                  </div>
+                  <div className="text-[14.5px] font-semibold text-slate-800 group-hover:text-[#0066FF] transition-colors">
+                    sajjaduli724@gmail.com
+                  </div>
+                </div>
+              </a>
+
+              {/* Phone number */}
+              <a
+                href="tel:01560060092"
+                className="flex items-center gap-4 group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-[#0066FF]/10 text-[#0066FF] flex items-center justify-center shrink-0 group-hover:bg-[#0066FF] group-hover:text-white transition-colors">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[11.5px] text-slate-400 font-medium">
+                    Phone number
+                  </div>
+                  <div className="text-[14.5px] font-semibold text-slate-800 group-hover:text-[#0066FF] transition-colors tabular-nums">
+                    01560060092
+                  </div>
+                </div>
+              </a>
+
+              {/* Headquarters */}
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-lg bg-[#0066FF]/10 text-[#0066FF] flex items-center justify-center shrink-0">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[11.5px] text-slate-400 font-medium">
                     Headquarters
                   </div>
-                  <div className="text-xs sm:text-sm font-bold text-white">
+                  <div className="text-[14.5px] font-semibold text-slate-800">
                     Dhaka, Bangladesh
                   </div>
                 </div>
@@ -172,88 +121,50 @@ export default function ContactModal({ isOpen, onClose }) {
             </div>
           </div>
 
-          {/* Bottom Social Bar */}
-          <div className="pt-7 mt-7 border-t border-white/15 flex items-center justify-between">
-            <span className="text-xs font-medium text-blue-200/80">
-              Connect with us
-            </span>
-            <div className="flex items-center gap-2.5">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#0066FF] border border-white/15 text-white flex items-center justify-center transition-colors"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#0066FF] border border-white/15 text-white flex items-center justify-center transition-colors"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column: Clean Message Form */}
-        <div className="md:col-span-7 p-7 sm:p-9 bg-white flex flex-col justify-center">
-          {submitted ? (
-            <div className="py-8 text-center space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-extrabold text-[#0F172A]">
-                Message Sent Successfully!
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 max-w-sm mx-auto leading-relaxed">
-                Thank you, <strong>{formData.name}</strong>. Your message has
-                been received and we will get back to you at{' '}
-                <strong>{formData.email}</strong> within 24 hours.
-              </p>
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSubmitted(false);
-                    setFormData({
-                      name: '',
-                      email: '',
-                      subject: '',
-                      message: '',
-                    });
-                    onClose();
-                  }}
-                  className="px-6 py-2.5 rounded-lg bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold cursor-pointer transition-colors"
-                >
-                  Done
-                </button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className="mb-6">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
-                  Direct Inquiry
-                </span>
-                <h3 className="text-xl font-extrabold text-[#0F172A] mt-0.5">
-                  Send Us a Message
-                </h3>
-                <p className="text-xs text-slate-500 mt-1">
-                  Fill out the form below and we&apos;ll respond within 24
-                  hours.
-                </p>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          {/* Right Column: Floating White Form Card */}
+          <div className="md:col-span-6">
+            <div className="bg-white rounded-[24px] p-7 sm:p-9 shadow-[0_14px_40px_rgba(15,23,42,0.06)] border border-slate-100">
+              {submitted ? (
+                <div className="py-10 text-center space-y-4">
+                  <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
+                    <CheckCircle2 className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-xl font-extrabold text-[#0F172A]">
+                    Request Received!
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-500 max-w-xs mx-auto leading-relaxed">
+                    Thank you, <strong>{formData.name}</strong>. We&apos;ll get
+                    back to you at <strong>{formData.email}</strong> within 24
+                    hours.
+                  </p>
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSubmitted(false);
+                        setFormData({
+                          name: '',
+                          email: '',
+                          industry: '',
+                          message: '',
+                        });
+                        onClose();
+                      }}
+                      className="inline-flex items-center gap-3 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-semibold pr-5 pl-1.5 py-1.5 rounded-full transition-colors cursor-pointer"
+                    >
+                      <span className="w-7 h-7 rounded-full bg-white text-[#0066FF] flex items-center justify-center">
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </span>
+                      <span>Done</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Name */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Full Name *
+                    <label className="block text-xs font-medium text-slate-600 mb-1.5">
+                      Name
                     </label>
                     <input
                       type="text"
@@ -262,13 +173,15 @@ export default function ContactModal({ isOpen, onClose }) {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      placeholder="Sajjadul Islam"
-                      className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-[#F8FAFC] focus:bg-white focus:border-[#0066FF] focus:outline-none transition-colors"
+                      placeholder="Jane Smith"
+                      className="w-full px-4 py-3 text-xs sm:text-sm rounded-xl bg-[#F3F5F8] border border-transparent focus:border-[#0066FF] focus:bg-white focus:outline-none text-slate-800 placeholder:text-slate-400 transition-colors"
                     />
                   </div>
+
+                  {/* Email */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Email Address *
+                    <label className="block text-xs font-medium text-slate-600 mb-1.5">
+                      Email
                     </label>
                     <input
                       type="email"
@@ -277,53 +190,76 @@ export default function ContactModal({ isOpen, onClose }) {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      placeholder="you@example.com"
-                      className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-[#F8FAFC] focus:bg-white focus:border-[#0066FF] focus:outline-none transition-colors"
+                      placeholder="jane@company.com"
+                      className="w-full px-4 py-3 text-xs sm:text-sm rounded-xl bg-[#F3F5F8] border border-transparent focus:border-[#0066FF] focus:bg-white focus:outline-none text-slate-800 placeholder:text-slate-400 transition-colors"
                     />
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.subject}
-                    onChange={(e) =>
-                      setFormData({ ...formData, subject: e.target.value })
-                    }
-                    placeholder="AI Integration / Robotics Project"
-                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-[#F8FAFC] focus:bg-white focus:border-[#0066FF] focus:outline-none transition-colors"
-                  />
-                </div>
+                  {/* Industry */}
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1.5">
+                      Industry
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={formData.industry}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            industry: e.target.value,
+                          })
+                        }
+                        className="w-full appearance-none px-4 py-3 pr-10 text-xs sm:text-sm rounded-xl bg-[#F3F5F8] border border-transparent focus:border-[#0066FF] focus:bg-white focus:outline-none text-slate-700 transition-colors cursor-pointer"
+                      >
+                        <option value="">Select...</option>
+                        <option value="AI Bot Platform">AI Bot Platform</option>
+                        <option value="Robotics & Automation">
+                          Robotics &amp; Automation
+                        </option>
+                        <option value="Smart IoT Technology">
+                          Smart IoT Technology
+                        </option>
+                        <option value="Research & Custom Architecture">
+                          Research &amp; Custom Architecture
+                        </option>
+                      </select>
+                      <ChevronDown className="pointer-events-none w-4 h-4 text-[#0066FF] absolute right-3.5 top-1/2 -translate-y-1/2" />
+                    </div>
+                  </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Message *
-                  </label>
-                  <textarea
-                    rows={4}
-                    required
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    placeholder="Write your message or project details here..."
-                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-[#F8FAFC] focus:bg-white focus:border-[#0066FF] focus:outline-none transition-colors resize-none"
-                  />
-                </div>
+                  {/* Message */}
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1.5">
+                      Message
+                    </label>
+                    <textarea
+                      rows={4}
+                      required
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      placeholder="Type your message"
+                      className="w-full px-4 py-3 text-xs sm:text-sm rounded-xl bg-[#F3F5F8] border border-transparent focus:border-[#0066FF] focus:bg-white focus:outline-none text-slate-800 placeholder:text-slate-400 transition-colors resize-y"
+                    />
+                  </div>
 
-                <button
-                  type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-sm font-bold py-3 rounded-xl transition-colors cursor-pointer shadow-md"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>Send Message</span>
-                </button>
-              </form>
-            </>
-          )}
+                  {/* Pill CTA Button with Left Circle Arrow */}
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center gap-3.5 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs sm:text-[13px] font-semibold pr-6 pl-1.5 py-1.5 rounded-full transition-colors cursor-pointer shadow-md"
+                    >
+                      <span className="w-8 h-8 rounded-full bg-white text-[#0066FF] flex items-center justify-center shrink-0">
+                        <ArrowRight className="w-4 h-4" />
+                      </span>
+                      <span>Get a Solution</span>
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
