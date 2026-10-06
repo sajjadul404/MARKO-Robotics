@@ -108,22 +108,23 @@ export default function Footer({
           {/* Global Headquarters */}
           <div className="lg:col-span-2">
             <h3 className="text-[12.5px] font-bold text-white tracking-wide mb-4">
-              Global Headquarters
+              Headquarters
             </h3>
-            <p className="text-[12.5px] text-slate-400 leading-[1.6] mb-3">
-              100 Innovation Way, Suite 400
-              <br />
-              Silicon Valley, CA 94016
+            <p className="text-[12.5px] text-slate-400 leading-[1.6] mb-2">
+              Dhaka, Bangladesh
+            </p>
+            <p className="text-[12.5px] text-slate-400 leading-[1.6] mb-2 tabular-nums">
+              01560060092
             </p>
             <a
-              href="mailto:contact@markorobotics.com"
+              href="mailto:sajjaduli724@gmail.com"
               onClick={(e) => {
                 e.preventDefault();
                 setShowContactModal(true);
               }}
-              className="text-[12.5px] text-slate-400 hover:text-white transition-colors"
+              className="text-[12.5px] text-slate-400 hover:text-white transition-colors break-all"
             >
-              contact@markorobotics.com
+              sajjaduli724@gmail.com
             </a>
           </div>
         </div>
@@ -134,15 +135,15 @@ export default function Footer({
             © 2026 MARKO Robotics. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3.5">
             {/* LinkedIn */}
             <button
               onClick={() => setShowContactModal(true)}
               aria-label="LinkedIn"
-              className="w-7 h-7 rounded-full bg-slate-800/90 hover:bg-[#0066FF] text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+              className="w-10 h-10 rounded-full bg-slate-800/90 hover:bg-[#0066FF] text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             >
               <svg
-                className="w-3.5 h-3.5 fill-current"
+                className="w-5 h-5 fill-current"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
@@ -154,10 +155,10 @@ export default function Footer({
             <button
               onClick={() => setShowContactModal(true)}
               aria-label="Twitter"
-              className="w-7 h-7 rounded-full bg-slate-800/90 hover:bg-[#0066FF] text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+              className="w-10 h-10 rounded-full bg-slate-800/90 hover:bg-[#0066FF] text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             >
               <svg
-                className="w-3.5 h-3.5 fill-current"
+                className="w-5 h-5 fill-current"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
@@ -169,10 +170,10 @@ export default function Footer({
             <button
               onClick={() => setShowContactModal(true)}
               aria-label="Facebook"
-              className="w-7 h-7 rounded-full bg-slate-800/90 hover:bg-[#0066FF] text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+              className="w-10 h-10 rounded-full bg-slate-800/90 hover:bg-[#0066FF] text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             >
               <svg
-                className="w-3.5 h-3.5 fill-current"
+                className="w-5 h-5 fill-current"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
@@ -184,10 +185,10 @@ export default function Footer({
             <button
               onClick={() => setShowContactModal(true)}
               aria-label="YouTube"
-              className="w-7 h-7 rounded-full bg-slate-800/90 hover:bg-[#0066FF] text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+              className="w-10 h-10 rounded-full bg-slate-800/90 hover:bg-[#0066FF] text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             >
               <svg
-                className="w-3.5 h-3.5 fill-current"
+                className="w-5 h-5 fill-current"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
