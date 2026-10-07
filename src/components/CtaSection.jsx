@@ -8,7 +8,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 
-export default function CtaSection() {
+export default function CtaSection({ onSendMessage }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,6 +20,9 @@ export default function CtaSection() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim()) return;
+    if (onSendMessage) {
+      onSendMessage(formData);
+    }
     setSubmitted(true);
   };
 
