@@ -24,11 +24,13 @@ export default function ProductLandingPage({
   allProducts,
   onBack,
   onSelectProduct,
+  onPlaceOrder,
 }) {
   const [selectedTierIndex, setSelectedTierIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
+  const [confirmedOrderId, setConfirmedOrderId] = useState('MRK-4093');
   const [orderDetails, setOrderDetails] = useState({
     fullName: '',
     email: '',
@@ -52,8 +54,11 @@ export default function ProductLandingPage({
   const [gatewayError, setGatewayError] = useState('');
   const [sendMoneyCompleted, setSendMoneyCompleted] = useState(false);
 
-  const activeTier = product.tiers[selectedTierIndex] || product.tiers[0];
-  const totalAmount = activeTier ? activeTier.price * quantity : 0;
+  const unitPrice =
+    Number(product.numericPrice) ||
+    Number(String(product.price).replace(/[^0-9.]/g, '')) ||
+    0;
+  const totalAmount = unitPrice * quantity;
 
   const isMobileMoney =
     orderDetails.paymentMethod === 'bKash' ||
@@ -91,6 +96,37 @@ export default function ProductLandingPage({
     setSendMoneyCompleted(true);
   };
 
+  const finalizeOrder = () => {
+    const newId = `MRK-${Math.floor(4100 + Math.random() * 5000)}`;
+    setConfirmedOrderId(newId);
+    if (onPlaceOrder) {
+      onPlaceOrder({
+        id: newId,
+        createdAt: new Date().toISOString().slice(0, 16).replace('T', ' '),
+        productId: product.id,
+        productTitle: product.title,
+        quantity,
+        totalAmount,
+        fullName: orderDetails.fullName,
+        email: orderDetails.email,
+        company: orderDetails.company,
+        phone: orderDetails.phone,
+        address: orderDetails.address,
+        paymentMethod: orderDetails.paymentMethod,
+        senderNumber:
+          orderDetails.paymentMethod === 'VISA'
+            ? orderDetails.cardNumber
+            : orderDetails.senderNumber,
+        transactionId:
+          orderDetails.paymentMethod === 'VISA'
+            ? `VISA-${Math.floor(100000 + Math.random() * 900000)}`
+            : orderDetails.transactionId,
+        status: 'Pending',
+      });
+    }
+    setOrderConfirmed(true);
+  };
+
   const handleSavePopupPayment = () => {
     if (
       !orderDetails.senderNumber.trim() ||
@@ -110,7 +146,7 @@ export default function ProductLandingPage({
     setGatewayError('');
     setSendMoneyCompleted(true);
     setSendMoneyModalOpen(false);
-    setOrderConfirmed(true);
+    finalizeOrder();
   };
 
   const handleOrderSubmit = (e) => {
@@ -131,7 +167,7 @@ export default function ProductLandingPage({
       setSendMoneyModalOpen(true);
       return;
     }
-    setOrderConfirmed(true);
+    finalizeOrder();
   };
 
   return (
@@ -651,7 +687,7 @@ export default function ProductLandingPage({
                 <div className="flex items-center gap-2.5 text-emerald-800">
                   <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
                   <h3 className="text-lg font-extrabold">
-                    Order #MRK-4092 Confirmed
+                    Order #{confirmedOrderId} Confirmed
                   </h3>
                 </div>
                 <p className="text-xs sm:text-sm text-emerald-900/80 leading-relaxed">
