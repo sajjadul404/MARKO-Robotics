@@ -88,7 +88,29 @@ export default function App() {
   // Dedicated Page States
   const [activeProductId, setActiveProductId] = useState(null);
   const [activeResearchPage, setActiveResearchPage] = useState(false);
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    return path === '/admin' || path.endsWith('/admin') || hash === '#/admin' || hash === '#admin';
+  });
+
+  useEffect(() => {
+    const checkAdminRoute = () => {
+      const path = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+      setIsAdminOpen(
+        path === '/admin' || path.endsWith('/admin') || hash === '#/admin' || hash === '#admin'
+      );
+    };
+
+    window.addEventListener('popstate', checkAdminRoute);
+    window.addEventListener('hashchange', checkAdminRoute);
+    return () => {
+      window.removeEventListener('popstate', checkAdminRoute);
+      window.removeEventListener('hashchange', checkAdminRoute);
+    };
+  }, []);
 
   // Modal States
   const [showContactModal, setShowContactModal] = useState(false);
@@ -195,7 +217,12 @@ export default function App() {
         messages={messages}
         setMessages={setMessages}
         onResetDefaults={handleResetDefaults}
-        onExitAdmin={() => setIsAdminOpen(false)}
+        onExitAdmin={() => {
+          setIsAdminOpen(false);
+          if (typeof window !== 'undefined') {
+            window.history.pushState({}, '', '/');
+          }
+        }}
       />
     );
   }
@@ -209,10 +236,6 @@ export default function App() {
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}
         scrollToSection={scrollToSection}
-        onOpenAdmin={() => {
-          setIsAdminOpen(true);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
       />
 
       {activeProductPage ? (
