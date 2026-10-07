@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Menu } from 'lucide-react';
+import { ArrowRight, Menu, Shield } from 'lucide-react';
 
 export default function Navbar({
   activeNav,
@@ -8,7 +8,7 @@ export default function Navbar({
   mobileMenuOpen,
   setMobileMenuOpen,
   scrollToSection,
-  setShowContactModal,
+  onOpenAdmin,
 }) {
   const navItems = [
     { id: 'home', label: 'Home' },
@@ -65,7 +65,15 @@ export default function Navbar({
         </nav>
 
         {/* Zone 3: Primary Action */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={onOpenAdmin}
+            className="hidden sm:inline-flex items-center gap-1.5 border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-[12.5px] font-semibold px-3.5 py-2.5 rounded-[8px] transition-colors cursor-pointer whitespace-nowrap"
+          >
+            <Shield className="w-3.5 h-3.5 text-[#0066FF]" />
+            <span>Admin Panel</span>
+          </button>
+
           <button
             onClick={() => scrollToSection('products')}
             className="hidden sm:inline-flex items-center gap-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-[13px] font-semibold px-5 py-2.5 rounded-[8px] transition-colors cursor-pointer whitespace-nowrap shadow-xs"
@@ -96,6 +104,16 @@ export default function Navbar({
               {item.label}
             </button>
           ))}
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onOpenAdmin();
+            }}
+            className="flex items-center gap-2 w-full text-left py-2 text-sm font-bold text-[#0066FF]"
+          >
+            <Shield className="w-4 h-4" />
+            <span>Admin Panel</span>
+          </button>
         </div>
       )}
     </header>
