@@ -238,3 +238,81 @@ export const RESEARCH_PAPERS = [
     paperUrl: 'https://arxiv.org/abs/2310.06825',
   },
 ];
+
+export const INITIAL_ORDERS = [
+  {
+    id: 'MRK-4092',
+    createdAt: '2026-10-06 14:20',
+    productId: 'robotics',
+    productTitle: 'Robotics',
+    quantity: 1,
+    totalAmount: 12900,
+    fullName: 'Sajjadul Islam',
+    email: '20244103008@cse.bubt.edu.bd',
+    company: 'BUBT Robotics Lab',
+    phone: '01560060092',
+    address: 'Mirpur-2, Dhaka, Bangladesh',
+    paymentMethod: 'bKash',
+    senderNumber: '01711849200',
+    transactionId: 'BKS849201X',
+    status: 'Verified',
+  },
+  {
+    id: 'MRK-4091',
+    createdAt: '2026-10-05 18:45',
+    productId: 'ai-bot',
+    productTitle: 'AI Bot',
+    quantity: 2,
+    totalAmount: 2998,
+    fullName: 'Tanvir Ahmed',
+    email: 'tanvir@apexautomation.io',
+    company: 'Apex Industrial Labs',
+    phone: '01819540320',
+    address: 'Gulshan-2, Dhaka, Bangladesh',
+    paymentMethod: 'Nagad',
+    senderNumber: '01819540320',
+    transactionId: 'NGD738291X',
+    status: 'Pending',
+  },
+  {
+    id: 'MRK-4090',
+    createdAt: '2026-10-04 11:10',
+    productId: 'smart-tech',
+    productTitle: 'Smart Technology',
+    quantity: 1,
+    totalAmount: 3250,
+    fullName: 'Dr. Elena Vance',
+    email: 'elena@synthesis.ai',
+    company: 'Synthesis Operations',
+    phone: '+1 (415) 890-2341',
+    address: '450 Automation Parkway, San Jose, CA',
+    paymentMethod: 'VISA',
+    senderNumber: '4532 •••• 8891',
+    transactionId: 'VISA-992041',
+    status: 'Shipped',
+  },
+];
+
+export const INITIAL_MESSAGES = [
+  {
+    id: 'MSG-101',
+    createdAt: '2026-10-06 12:15',
+    name: 'Rafiqul Hasan',
+    email: 'rafiqul@dhakatech.com',
+    industry: 'Robotics & Automation',
+    message:
+      'We are looking to deploy 3 Aegis-7 robotic arms for our PCB assembly line in Gazipur. Could we schedule a technical demo this week?',
+    status: 'Unread',
+  },
+  {
+    id: 'MSG-102',
+    createdAt: '2026-10-05 09:30',
+    name: 'Nusrat Jahan',
+    email: 'nusrat@neuralworks.bd',
+    industry: 'AI Bot Platform',
+    message:
+      'Interested in integrating MARKO AI Bot with our existing ERP and warehouse inventory system.',
+    status: 'Resolved',
+  },
+];
+
