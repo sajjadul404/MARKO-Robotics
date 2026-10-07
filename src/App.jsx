@@ -3,11 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   PRODUCTS,
   PULSE_GALLERY,
   RESEARCH_PAPERS,
+  INITIAL_ORDERS,
+  INITIAL_MESSAGES,
 } from './data/siteData.js';
 import Navbar from './components/Navbar.jsx';
 import HeroSection from './components/HeroSection.jsx';
@@ -20,38 +22,136 @@ import ProductLandingPage from './components/ProductLandingPage.jsx';
 import ResearchLandingPage from './components/ResearchLandingPage.jsx';
 import PhotoPreviewModal from './components/PhotoPreviewModal.jsx';
 import ContactModal from './components/ContactModal.jsx';
+import AdminPanel from './components/AdminPanel.jsx';
+
+function loadFromStorage(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 export default function App() {
   const [activeNav, setActiveNav] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Live Site & Admin Synchronized States
+  const [products, setProducts] = useState(() =>
+    loadFromStorage('marko_products', PRODUCTS)
+  );
+  const [orders, setOrders] = useState(() =>
+    loadFromStorage('marko_orders', INITIAL_ORDERS)
+  );
+  const [papers, setPapers] = useState(() =>
+    loadFromStorage('marko_papers', RESEARCH_PAPERS)
+  );
+  const [gallery, setGallery] = useState(() =>
+    loadFromStorage('marko_gallery', PULSE_GALLERY)
+  );
+  const [messages, setMessages] = useState(() =>
+    loadFromStorage('marko_messages', INITIAL_MESSAGES)
+  );
+
+  // Persist to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_products', JSON.stringify(products));
+    } catch {}
+  }, [products]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_orders', JSON.stringify(orders));
+    } catch {}
+  }, [orders]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_papers', JSON.stringify(papers));
+    } catch {}
+  }, [papers]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_gallery', JSON.stringify(gallery));
+    } catch {}
+  }, [gallery]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_messages', JSON.stringify(messages));
+    } catch {}
+  }, [messages]);
+
   // Dedicated Page States
-  const [activeProductPage, setActiveProductPage] = useState(null);
+  const [activeProductId, setActiveProductId] = useState(null);
   const [activeResearchPage, setActiveResearchPage] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   // Modal States
   const [showContactModal, setShowContactModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
+  const activeProductPage = activeProductId
+    ? products.find((p) => p.id === activeProductId) || null
+    : null;
+
   const openProductLandingPage = (product) => {
     setActiveResearchPage(false);
-    setActiveProductPage(product);
+    setIsAdminOpen(false);
+    setActiveProductId(product ? product.id : null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const openResearchLandingPage = () => {
-    setActiveProductPage(null);
+    setActiveProductId(null);
+    setIsAdminOpen(false);
     setActiveResearchPage(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePlaceOrder = (newOrder) => {
+    setOrders((prev) => [newOrder, ...prev]);
+  };
+
+  const handleSendMessage = (msgData) => {
+    const newMsg = {
+      id: `MSG-${Math.floor(110 + Math.random() * 900)}`,
+      createdAt: new Date().toISOString().slice(0, 16).replace('T', ' '),
+      name: msgData.name,
+      email: msgData.email,
+      industry: msgData.industry || 'General Inquiry',
+      message: msgData.message,
+      status: 'Unread',
+    };
+    setMessages((prev) => [newMsg, ...prev]);
+  };
+
+  const handleResetDefaults = () => {
+    setProducts(PRODUCTS);
+    setOrders(INITIAL_ORDERS);
+    setPapers(RESEARCH_PAPERS);
+    setGallery(PULSE_GALLERY);
+    setMessages(INITIAL_MESSAGES);
+    try {
+      localStorage.removeItem('marko_products');
+      localStorage.removeItem('marko_orders');
+      localStorage.removeItem('marko_papers');
+      localStorage.removeItem('marko_gallery');
+      localStorage.removeItem('marko_messages');
+    } catch {}
   };
 
   const scrollToSection = (sectionId) => {
     setActiveNav(sectionId);
     setMobileMenuOpen(false);
 
-    if (activeProductPage || activeResearchPage) {
-      setActiveProductPage(null);
+    if (activeProductPage || activeResearchPage || isAdminOpen) {
+      setActiveProductId(null);
       setActiveResearchPage(false);
+      setIsAdminOpen(false);
       setTimeout(() => {
         if (sectionId === 'contact') {
           document
@@ -81,6 +181,25 @@ export default function App() {
     }
   };
 
+  if (isAdminOpen) {
+    return (
+      <AdminPanel
+        products={products}
+        setProducts={setProducts}
+        orders={orders}
+        setOrders={setOrders}
+        papers={papers}
+        setPapers={setPapers}
+        gallery={gallery}
+        setGallery={setGallery}
+        messages={messages}
+        setMessages={setMessages}
+        onResetDefaults={handleResetDefaults}
+        onExitAdmin={() => setIsAdminOpen(false)}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-[#0F172A]">
       <Navbar
@@ -90,40 +209,44 @@ export default function App() {
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}
         scrollToSection={scrollToSection}
-        setShowContactModal={setShowContactModal}
+        onOpenAdmin={() => {
+          setIsAdminOpen(true);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
       />
 
       {activeProductPage ? (
         <ProductLandingPage
           product={activeProductPage}
-          allProducts={PRODUCTS}
-          onBack={() => setActiveProductPage(null)}
+          allProducts={products}
+          onBack={() => setActiveProductId(null)}
           onSelectProduct={openProductLandingPage}
+          onPlaceOrder={handlePlaceOrder}
         />
       ) : activeResearchPage ? (
         <ResearchLandingPage
-          papers={RESEARCH_PAPERS}
+          papers={papers}
           onBack={() => setActiveResearchPage(false)}
         />
       ) : (
         <main className="flex-1">
           <HeroSection scrollToSection={scrollToSection} />
           <ProductSpectrumSection
-            products={PRODUCTS}
+            products={products}
             openProductLandingPage={openProductLandingPage}
           />
           <AboutSection openResearchLandingPage={openResearchLandingPage} />
           <CompanyPulseSection
-            gallery={PULSE_GALLERY}
+            gallery={gallery}
             setSelectedEvent={setSelectedEvent}
             scrollToSection={scrollToSection}
           />
-          <CtaSection setShowContactModal={setShowContactModal} />
+          <CtaSection onSendMessage={handleSendMessage} />
         </main>
       )}
 
       <Footer
-        products={PRODUCTS}
+        products={products}
         scrollToSection={scrollToSection}
         openProductLandingPage={openProductLandingPage}
         openResearchLandingPage={openResearchLandingPage}
