@@ -44,16 +44,6 @@ export default function CompanyPulseSection({
             </div>
           ))}
         </div>
-
-        <div className="mt-11 text-center">
-          <button
-            type="button"
-            onClick={() => scrollToSection('events')}
-            className="inline-flex items-center justify-center px-6 py-2.5 rounded-[8px] border border-slate-300 bg-white hover:bg-slate-50 text-[#0F172A] text-[12.5px] font-semibold transition-colors cursor-pointer whitespace-nowrap"
-          >
-            See More
-          </button>
-        </div>
       </div>
     </section>
   );
