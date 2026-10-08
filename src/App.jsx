@@ -25,10 +25,21 @@ import PhotoPreviewModal from './components/PhotoPreviewModal.jsx';
 import ContactModal from './components/ContactModal.jsx';
 import AdminPanel from './components/AdminPanel.jsx';
 
+const DEMO_ORDER_IDS = new Set(['MRK-4092', 'MRK-4091', 'MRK-4090']);
+const DEMO_MESSAGE_IDS = new Set(['MSG-101', 'MSG-102']);
+
 function loadFromStorage(key, fallback) {
   try {
     const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : fallback;
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    if (key === 'marko_orders' && Array.isArray(parsed)) {
+      return parsed.filter((o) => !DEMO_ORDER_IDS.has(o.id));
+    }
+    if (key === 'marko_messages' && Array.isArray(parsed)) {
+      return parsed.filter((m) => !DEMO_MESSAGE_IDS.has(m.id));
+    }
+    return parsed;
   } catch {
     return fallback;
   }
