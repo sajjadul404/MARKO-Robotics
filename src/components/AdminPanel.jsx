@@ -19,10 +19,14 @@ import {
   X,
   Save,
   DollarSign,
+  Sparkles,
 } from 'lucide-react';
 import ResilientImage from './ResilientImage.jsx';
+import { INITIAL_HERO_CONFIG } from '../data/siteData.js';
 
 export default function AdminPanel({
+  heroConfig,
+  setHeroConfig,
   products,
   setProducts,
   orders,
@@ -39,6 +43,22 @@ export default function AdminPanel({
   const [activeTab, setActiveTab] = useState('overview');
   const [orderSearch, setOrderSearch] = useState('');
   const [orderStatusFilter, setOrderStatusFilter] = useState('All');
+
+  // Hero Showcase Form State
+  const [heroForm, setHeroForm] = useState(() => ({
+    ...INITIAL_HERO_CONFIG,
+    ...(heroConfig || {}),
+  }));
+  const [heroSavedToast, setHeroSavedToast] = useState(false);
+
+  const handleSaveHero = (e) => {
+    e.preventDefault();
+    if (setHeroConfig) {
+      setHeroConfig(heroForm);
+    }
+    setHeroSavedToast(true);
+    setTimeout(() => setHeroSavedToast(false), 2500);
+  };
 
   // Product Modal State
   const [editingProduct, setEditingProduct] = useState(null);
@@ -271,6 +291,7 @@ export default function AdminPanel({
 
   const navItems = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+    { id: 'hero', label: 'Hero Showcase', icon: Sparkles },
     {
       id: 'orders',
       label: 'Orders & Payments',
@@ -391,7 +412,10 @@ export default function AdminPanel({
         {/* Bottom Actions */}
         <div className="p-4 border-t border-slate-800/80 space-y-2 hidden lg:block">
           <button
-            onClick={onResetDefaults}
+            onClick={() => {
+              setHeroForm(INITIAL_HERO_CONFIG);
+              onResetDefaults();
+            }}
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-slate-700 hover:bg-slate-800 text-xs font-semibold text-slate-300 cursor-pointer transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -526,6 +550,41 @@ export default function AdminPanel({
                 </div>
               </div>
 
+              {/* Hero Showcase Banner Quick Card */}
+              <div className="bg-white rounded-xl border border-slate-200 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+                <div className="flex items-center gap-4">
+                  <div className="w-24 aspect-[4/3] rounded-lg overflow-hidden bg-slate-900 shrink-0 border border-slate-200">
+                    <ResilientImage
+                      src={heroForm.imageUrl}
+                      alt={heroForm.cardTitle}
+                      fallbackTitle={heroForm.cardTitle}
+                      iconType={heroForm.iconType}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <div className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#0066FF] mb-1">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Homepage Hero Right Showcase Card</span>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-extrabold text-[#0F172A]">
+                      {heroForm.cardTitle}
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">
+                      Heading: {heroForm.heading}
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setActiveTab('hero')}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold cursor-pointer transition-colors shrink-0"
+                >
+                  <Edit3 className="w-3.5 h-3.5" />
+                  <span>Customize Hero Card</span>
+                </button>
+              </div>
+
               {/* Recent Orders Table */}
               <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
@@ -622,6 +681,233 @@ export default function AdminPanel({
                 </div>
               </div>
             </>
+          )}
+
+          {/* TAB: HERO SHOWCASE */}
+          {activeTab === 'hero' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* Left Column: Configuration Form */}
+              <div className="lg:col-span-7 bg-white rounded-xl border border-slate-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+                  <div>
+                    <h2 className="text-sm font-extrabold text-[#0F172A]">
+                      Hero Section &amp; Right Showcase Card
+                    </h2>
+                    <p className="text-xs text-slate-500">
+                      Customize the right-side visual card (SVG Icon, Title, or
+                      Custom Image) and Hero text
+                    </p>
+                  </div>
+                  {heroSavedToast && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      Saved Live!
+                    </span>
+                  )}
+                </div>
+
+                <form onSubmit={handleSaveHero} className="p-6 space-y-5">
+                  <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200/80 space-y-4">
+                    <div className="text-xs font-extrabold uppercase tracking-wider text-[#0066FF]">
+                      Right-Side Showcase Box Settings
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Showcase Card Title (Displayed below the icon) *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={heroForm.cardTitle}
+                        onChange={(e) =>
+                          setHeroForm({
+                            ...heroForm,
+                            cardTitle: e.target.value,
+                          })
+                        }
+                        placeholder="AEGIS-7 Humanoid Intelligent System"
+                        className="w-full px-3.5 py-2 text-sm rounded-lg bg-white border border-slate-300 focus:border-[#0066FF] focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                        Select SVG Icon Style
+                      </label>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                        {[
+                          { id: 'hero', label: 'Humanoid Robot' },
+                          { id: 'ai-bot', label: 'AI Neural Core' },
+                          { id: 'robotics', label: 'Robotic Arm' },
+                          { id: 'smart-tech', label: 'Smart IoT Mesh' },
+                          { id: 'blueprint', label: 'Tech Blueprint' },
+                          { id: 'pulse', label: 'System Pulse' },
+                        ].map((opt) => (
+                          <button
+                            key={opt.id}
+                            type="button"
+                            onClick={() =>
+                              setHeroForm({ ...heroForm, iconType: opt.id })
+                            }
+                            className={`px-3 py-2.5 rounded-lg text-xs font-bold border text-left transition-all cursor-pointer flex items-center justify-between ${
+                              heroForm.iconType === opt.id
+                                ? 'bg-[#0066FF] text-white border-[#0066FF] shadow-xs'
+                                : 'bg-white text-slate-700 border-slate-200 hover:border-blue-300'
+                            }`}
+                          >
+                            <span>{opt.label}</span>
+                            {heroForm.iconType === opt.id && (
+                              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Custom Image URL (Optional — Leave blank to use SVG Icon)
+                      </label>
+                      <input
+                        type="text"
+                        value={heroForm.imageUrl}
+                        onChange={(e) =>
+                          setHeroForm({
+                            ...heroForm,
+                            imageUrl: e.target.value,
+                          })
+                        }
+                        placeholder="https://example.com/your-robot-photo.jpg"
+                        className="w-full px-3.5 py-2 text-sm rounded-lg bg-white border border-slate-300 focus:border-[#0066FF] focus:outline-none"
+                      />
+                      <p className="text-[11px] text-slate-500 mt-1">
+                        If you paste a direct image link (`https://...`), it will
+                        replace the SVG box. Clear it anytime to switch back to
+                        the SVG icon.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 pt-2">
+                    <div className="text-xs font-extrabold uppercase tracking-wider text-slate-400">
+                      Left-Side Hero Headline &amp; Buttons
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Main Headline *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={heroForm.heading}
+                        onChange={(e) =>
+                          setHeroForm({ ...heroForm, heading: e.target.value })
+                        }
+                        className="w-full px-3.5 py-2 text-sm rounded-lg border border-slate-300 focus:border-[#0066FF] focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Subheading Description *
+                      </label>
+                      <textarea
+                        rows={3}
+                        required
+                        value={heroForm.subheading}
+                        onChange={(e) =>
+                          setHeroForm({
+                            ...heroForm,
+                            subheading: e.target.value,
+                          })
+                        }
+                        className="w-full px-3.5 py-2 text-sm rounded-lg border border-slate-300 focus:border-[#0066FF] focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                          Primary Button Text
+                        </label>
+                        <input
+                          type="text"
+                          value={heroForm.primaryButtonText}
+                          onChange={(e) =>
+                            setHeroForm({
+                              ...heroForm,
+                              primaryButtonText: e.target.value,
+                            })
+                          }
+                          className="w-full px-3.5 py-2 text-sm rounded-lg border border-slate-300 focus:border-[#0066FF] focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                          Secondary Button Text
+                        </label>
+                        <input
+                          type="text"
+                          value={heroForm.secondaryButtonText}
+                          onChange={(e) =>
+                            setHeroForm({
+                              ...heroForm,
+                              secondaryButtonText: e.target.value,
+                            })
+                          }
+                          className="w-full px-3.5 py-2 text-sm rounded-lg border border-slate-300 focus:border-[#0066FF] focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-200 flex items-center justify-between gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setHeroForm(INITIAL_HERO_CONFIG);
+                        if (setHeroConfig) setHeroConfig(INITIAL_HERO_CONFIG);
+                      }}
+                      className="px-4 py-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-600 cursor-pointer"
+                    >
+                      Reset Default Hero
+                    </button>
+
+                    <button
+                      type="submit"
+                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold cursor-pointer shadow-xs transition-colors"
+                    >
+                      <Save className="w-4 h-4" />
+                      <span>Save Hero Changes</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              {/* Right Column: Live Interactive Preview */}
+              <div className="lg:col-span-5 space-y-4">
+                <div className="bg-white rounded-xl border border-slate-200 p-5">
+                  <div className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-3">
+                    Live Right-Side Showcase Preview
+                  </div>
+                  <div className="w-full aspect-[4/3.1] rounded-[20px] overflow-hidden bg-slate-900 shadow-lg border border-slate-200/60">
+                    <ResilientImage
+                      src={heroForm.imageUrl}
+                      alt={heroForm.cardTitle}
+                      fallbackTitle={heroForm.cardTitle}
+                      iconType={heroForm.iconType}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                  <p className="text-[11px] text-slate-400 mt-3 text-center">
+                    This is how the right-side hero card will appear on the
+                    homepage.
+                  </p>
+                </div>
+              </div>
+            </div>
           )}
 
           {/* TAB 2: ORDERS & PAYMENTS */}
