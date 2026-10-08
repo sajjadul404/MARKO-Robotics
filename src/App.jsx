@@ -10,6 +10,7 @@ import {
   RESEARCH_PAPERS,
   INITIAL_ORDERS,
   INITIAL_MESSAGES,
+  INITIAL_HERO_CONFIG,
 } from './data/siteData.js';
 import Navbar from './components/Navbar.jsx';
 import HeroSection from './components/HeroSection.jsx';
@@ -38,6 +39,9 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Live Site & Admin Synchronized States
+  const [heroConfig, setHeroConfig] = useState(() =>
+    loadFromStorage('marko_hero_config', INITIAL_HERO_CONFIG)
+  );
   const [products, setProducts] = useState(() =>
     loadFromStorage('marko_products', PRODUCTS)
   );
@@ -55,6 +59,11 @@ export default function App() {
   );
 
   // Persist to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_hero_config', JSON.stringify(heroConfig));
+    } catch {}
+  }, [heroConfig]);
   useEffect(() => {
     try {
       localStorage.setItem('marko_products', JSON.stringify(products));
@@ -152,12 +161,14 @@ export default function App() {
   };
 
   const handleResetDefaults = () => {
+    setHeroConfig(INITIAL_HERO_CONFIG);
     setProducts(PRODUCTS);
     setOrders(INITIAL_ORDERS);
     setPapers(RESEARCH_PAPERS);
     setGallery(PULSE_GALLERY);
     setMessages(INITIAL_MESSAGES);
     try {
+      localStorage.removeItem('marko_hero_config');
       localStorage.removeItem('marko_products');
       localStorage.removeItem('marko_orders');
       localStorage.removeItem('marko_papers');
@@ -206,6 +217,8 @@ export default function App() {
   if (isAdminOpen) {
     return (
       <AdminPanel
+        heroConfig={heroConfig}
+        setHeroConfig={setHeroConfig}
         products={products}
         setProducts={setProducts}
         orders={orders}
@@ -253,7 +266,10 @@ export default function App() {
         />
       ) : (
         <main className="flex-1">
-          <HeroSection scrollToSection={scrollToSection} />
+          <HeroSection
+            scrollToSection={scrollToSection}
+            heroConfig={heroConfig}
+          />
           <ProductSpectrumSection
             products={products}
             openProductLandingPage={openProductLandingPage}
