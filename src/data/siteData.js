@@ -293,6 +293,18 @@ export const INITIAL_ORDERS = [
   },
 ];
 
+export const INITIAL_HERO_CONFIG = {
+  heading: 'Building Technology for What’s Next',
+  subheading:
+    'MARKO Robotics creates innovative AI, robotics, and technology solutions designed to shape a smarter, more productive future.',
+  primaryButtonText: 'Explore Products',
+  secondaryButtonText: 'Discover MARKO',
+  cardTitle: 'AEGIS-7 Humanoid Intelligent System',
+  cardSubtitle: 'AEGIS-7 Next-Gen Humanoid Robotics System',
+  iconType: 'hero',
+  imageUrl: '',
+};
+
 export const INITIAL_MESSAGES = [
   {
     id: 'MSG-101',
