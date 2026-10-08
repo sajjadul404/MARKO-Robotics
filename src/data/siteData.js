@@ -1,257 +1,317 @@
-export const PRODUCTS = [
-  {
-    id: 'ai-bot',
-    title: 'AI Bot',
-    tagline: 'Enterprise Autonomous Reasoning & Conversational Core',
-    description:
-      'Empower operations with intelligent, secure conversational AI. Automate complex client workflows with seamless reasoning engines.',
-    longDescription:
-      'Engineered for high-throughput commercial operations, the MARKO AI Bot combines deterministic multi-agent orchestration with zero-retention enterprise encryption. Deploy across customer operations, internal engineering desks, and automated supply chain dispatch with sub-120ms latency.',
-    price: '$1,499',
-    numericPrice: 1499,
-    image: 'ai-bot',
-    specs: [
-      'Multi-agent deterministic workflow execution',
-      'Zero-retention enterprise data encryption (SOC2 Type II)',
-      'Sub-120ms conversational response latency',
-      'Direct ERP, CRM, and warehouse bus integration',
-      'Custom domain fine-tuning and local guardrail enforcement',
-      'Real-time audit logs and human-in-the-loop escalation',
-    ],
-    metrics: [
-      { label: 'Response Latency', value: '< 120ms' },
-      { label: 'Concurrent Agents', value: 'Up to 500' },
-      { label: 'System Uptime SLA', value: '99.99%' },
-    ],
-    tiers: [
-      {
-        name: 'Standard Node License',
-        price: 1499,
-        summary: 'Up to 50 concurrent autonomous agents + standard API bus',
-      },
-      {
-        name: 'Enterprise Cluster',
-        price: 2999,
-        summary: 'Unlimited agents + dedicated on-premise neural gateway',
-      },
-    ],
-    includedItems: [
-      'MARKO Neural Core Runtime License',
-      'Pre-built ERP / CRM / Warehouse Connectors',
-      'Dedicated Onboarding & Architecture Calibration',
-      '24/7 Priority Engineering Support',
-    ],
-    deploymentTime: 'Under 48 hours',
-    architecture: 'Distributed Neural Core',
-    sku: 'MRK-AI-900',
-  },
-  {
-    id: 'robotics',
-    title: 'Robotics',
-    tagline: '6-Axis & 7-Axis Precision Industrial Manipulation Unit',
-    description:
-      'Advanced robotic arms and mobility devices engineered for extreme precision, warehouse automation, and automated laboratory work.',
-    longDescription:
-      'Constructed with aerospace-grade titanium-aluminum composite linkages and optical torque sensors on every joint, MARKO Robotics arms deliver 0.02mm repeatability under continuous 24/7 industrial workloads. Ready for cleanroom laboratories, PCB assembly, and high-density fulfillment centers.',
-    price: '$12,900',
-    numericPrice: 12900,
-    image: 'robotics',
-    specs: [
-      '6-axis & 7-axis force-torque feedback articulation',
-      '0.02mm repeatability tolerance under full payload',
-      'Cleanroom ISO Class 4 certified actuator seals',
-      'Real-time collision avoidance via 360° optical array',
-      'Modular quick-swap end-effector pneumatic & electric mount',
-      'ROS 2 & MARKO Autonomous Control SDK included',
-    ],
-    metrics: [
-      { label: 'Repeatability', value: '±0.02 mm' },
-      { label: 'Max Payload', value: '18.5 kg' },
-      { label: 'Reach Radius', value: '1,350 mm' },
-    ],
-    tiers: [
-      {
-        name: 'Aegis-7 Base Manipulator',
-        price: 12900,
-        summary: '6-axis industrial arm + standard controller cabinet',
-      },
-      {
-        name: 'Aegis-7 Pro + Vision Array',
-        price: 16400,
-        summary: '7-axis arm + dual stereo depth cameras & precision gripper',
-      },
-    ],
-    includedItems: [
-      'Aegis-7 Articulated Robotic Arm Assembly',
-      'High-Frequency Real-Time Control Cabinet',
-      'Optical Safety Curtain & Emergency Stop Module',
-      'On-Site Calibration & 3-Year Hardware Warranty',
-    ],
-    deploymentTime: '2–4 weeks on-site calibration',
-    architecture: 'Aegis-7 Mechatronic Frame',
-    sku: 'MRK-RBT-702',
-  },
-  {
-    id: 'smart-tech',
-    title: 'Smart Technology',
-    tagline: 'Commercial Spatial Telemetry & Connected IoT Mesh',
-    description:
-      'Connected IoT networks and sensory array hardware giving your commercial facilities real-time spatial awareness and optimization.',
-    longDescription:
-      'Transform commercial buildings, factories, and logistics hubs into self-optimizing environments. The MARKO Smart Technology suite combines ultra-low-power spatial sensor nodes with an edge-computed digital twin hub for real-time energy, occupancy, and equipment telemetry.',
-    price: '$3,250',
-    numericPrice: 3250,
-    image: 'smart-tech',
-    specs: [
-      'Mesh telemetry across up to 10,000 spatial nodes',
-      'Predictive HVAC, power, and assembly load balancing',
-      'Edge-computed anomaly detection with local failover',
-      'Unified digital twin spatial visualization API',
-      'Sub-GHz & Wi-Fi 6E dual-band encrypted radio backhaul',
-      'Zero-downtime over-the-air firmware orchestration',
-    ],
-    metrics: [
-      { label: 'Mesh Capacity', value: '10,000 Nodes' },
-      { label: 'Energy Savings', value: 'Up to 34%' },
-      { label: 'Edge Sync Rate', value: '100 Hz' },
-    ],
-    tiers: [
-      {
-        name: 'Commercial Starter Kit (25 Nodes)',
-        price: 3250,
-        summary: '1 Edge Hub + 25 multi-spectrum spatial telemetry nodes',
-      },
-      {
-        name: 'Facility Full Mesh (100 Nodes)',
-        price: 8900,
-        summary: '2 Redundant Edge Hubs + 100 spatial telemetry nodes',
-      },
-    ],
-    includedItems: [
-      'MARKO Spatial Edge Compute Hub',
-      'Multi-Sensor Telemetry Nodes (Thermal, Optical, Acoustic)',
-      'Digital Twin Dashboard & API Access Key',
-      'Mounting Hardware & PoE Injector Kit',
-    ],
-    deploymentTime: '1 week modular rollout',
-    architecture: 'Spatial Node Mesh',
-    sku: 'MRK-IOT-450',
-  },
-];
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-export const PULSE_GALLERY = [
-  {
-    id: 'synthesis-hq',
-    title: 'Synthesis Global Operations Center',
-    date: 'October 14, 2026',
-    location: 'Silicon Valley, CA',
-    category: 'Campus Tour',
-    image: 'pulse',
-    summary:
-      'Inside our flagship architectural hub where hardware systems engineers and AI researchers collaborate under one roof.',
-  },
-  {
-    id: 'architecture-review',
-    title: 'Next-Gen Spatial Hardware Blueprint Review',
-    date: 'November 02, 2026',
-    location: 'Silicon Valley, CA',
-    category: 'Engineering Workshop',
-    image: 'blueprint',
-    summary:
-      'Cross-disciplinary systems architects finalizing structural schematics for modular industrial automation deployments.',
-  },
-  {
-    id: 'quantum-forum',
-    title: 'Quantum Leap Global Innovation Forum',
-    date: 'December 09, 2026',
-    location: 'San Francisco, CA',
-    category: 'Keynote Summit',
-    image: 'pulse',
-    summary:
-      'Annual keynote unveiling new reasoning engine benchmarks and autonomous manufacturing partnerships for global enterprises.',
-  },
-  {
-    id: 'aether-lab',
-    title: 'Aether Robotics Precision Actuator Lab',
-    date: 'January 18, 2027',
-    location: 'Palo Alto, CA',
-    category: 'Live Demonstration',
-    image: 'robotics',
-    summary:
-      'Hands-on calibration and stress-testing of fine-motor robotic manipulators engineered for laboratory automation.',
-  },
-];
+import React, { useState, useEffect } from 'react';
+import {
+  PRODUCTS,
+  PULSE_GALLERY,
+  RESEARCH_PAPERS,
+  INITIAL_ORDERS,
+  INITIAL_MESSAGES,
+  INITIAL_HERO_CONFIG,
+} from './data/siteData.js';
+import Navbar from './components/Navbar.jsx';
+import HeroSection from './components/HeroSection.jsx';
+import ProductSpectrumSection from './components/ProductSpectrumSection.jsx';
+import AboutSection from './components/AboutSection.jsx';
+import CompanyPulseSection from './components/CompanyPulseSection.jsx';
+import CtaSection from './components/CtaSection.jsx';
+import Footer from './components/Footer.jsx';
+import ProductLandingPage from './components/ProductLandingPage.jsx';
+import ResearchLandingPage from './components/ResearchLandingPage.jsx';
+import PhotoPreviewModal from './components/PhotoPreviewModal.jsx';
+import ContactModal from './components/ContactModal.jsx';
+import AdminPanel from './components/AdminPanel.jsx';
 
-export const RESEARCH_PAPERS = [
-  {
-    id: 'paper-aegis-kinematics',
-    title:
-      'Deterministic Torque Feedback & Sub-Millimeter Actuation in 7-Axis Robotic Manipulators',
-    authors: 'Dr. Elena Vance, Marcus Chen, Dr. Aris Thorne',
-    date: 'September 2026',
-    category: 'Mechatronics & Control Systems',
-    readTime: '14 min read',
-    image: 'blueprint',
-    description:
-      'This paper presents the mechanical and algorithmic architecture behind the Aegis-7 robotic hand and manipulator assembly. By combining optical harmonic-drive strain gauges with a 2kHz closed-loop control bus, our system eliminates micro-oscillations during high-speed pick-and-place and fragile laboratory handling.',
-    keyFindings: [
-      '42% reduction in trajectory settling time across variable payloads up to 18.5 kg.',
-      '0.02mm positional repeatability verified over 1.2 million continuous actuation cycles.',
-      'Real-time slip detection within 1.8 milliseconds using fingertip optical tactile arrays.',
-    ],
-    paperUrl: 'https://arxiv.org/abs/2303.04137',
-  },
-  {
-    id: 'paper-neural-core',
-    title:
-      'Zero-Retention Multi-Agent Reasoning Engines for Autonomous Industrial Workflows',
-    authors: 'Dr. Soren Lindqvist, Priya Nair, Devon Brooks',
-    date: 'July 2026',
-    category: 'Artificial Intelligence & Reasoning',
-    readTime: '11 min read',
-    image: 'ai-bot',
-    description:
-      'Enterprise automation requires reasoning models that never hallucinate unsafe hardware states or leak proprietary telemetry. We introduce a formally verified planner that translates natural-language operational directives into deterministic state-machine execution graphs.',
-    keyFindings: [
-      'Sub-120ms end-to-end planning latency across 500 concurrent autonomous agents.',
-      '100% compliance with formal safety invariants on live warehouse dispatch buses.',
-      'Zero-retention memory enclaves ensuring complete data sovereignty for regulated industries.',
-    ],
-    paperUrl: 'https://arxiv.org/abs/2308.08155',
-  },
-  {
-    id: 'paper-spatial-mesh',
-    title:
-      'High-Density Spatial Telemetry & Edge Digital Twins for Autonomous Facilities',
-    authors: 'Dr. Kenji Sato, Clara Rossi, Omar Farooq',
-    date: 'May 2026',
-    category: 'Spatial Computing & IoT',
-    readTime: '9 min read',
-    image: 'smart-tech',
-    description:
-      'Large-scale commercial and manufacturing facilities suffer from RF interference and sensor drift. This study details our self-healing sub-GHz and Wi-Fi 6E spatial node mesh capable of synchronizing 10,000+ acoustic, thermal, and optical sensors into a unified 3D digital twin.',
-    keyFindings: [
-      '99.98% packet delivery reliability in high-interference steel manufacturing plants.',
-      '34% average reduction in facility HVAC and peak assembly power consumption.',
-      'Autonomous localized failover within 8ms when primary cloud backhaul is severed.',
-    ],
-    paperUrl: 'https://arxiv.org/abs/2310.06825',
-  },
-];
+const DEMO_ORDER_IDS = new Set(['MRK-4092', 'MRK-4091', 'MRK-4090']);
+const DEMO_MESSAGE_IDS = new Set(['MSG-101', 'MSG-102']);
 
-export const INITIAL_ORDERS = [];
+function loadFromStorage(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    if (key === 'marko_orders' && Array.isArray(parsed)) {
+      return parsed.filter((o) => !DEMO_ORDER_IDS.has(o.id));
+    }
+    if (key === 'marko_messages' && Array.isArray(parsed)) {
+      return parsed.filter((m) => !DEMO_MESSAGE_IDS.has(m.id));
+    }
+    return parsed;
+  } catch {
+    return fallback;
+  }
+}
 
-export const INITIAL_HERO_CONFIG = {
-  heading: 'Building Technology for What’s Next',
-  subheading:
-    'MARKO Robotics creates innovative AI, robotics, and technology solutions designed to shape a smarter, more productive future.',
-  primaryButtonText: 'Explore Products',
-  secondaryButtonText: 'Discover MARKO',
-  cardTitle: 'AEGIS-7 Humanoid Intelligent System',
-  cardSubtitle: 'AEGIS-7 Next-Gen Humanoid Robotics System',
-  iconType: 'hero',
-  imageUrl: '',
-};
+export default function App() {
+  const [activeNav, setActiveNav] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-export const INITIAL_MESSAGES = [];
+  // Live Site & Admin Synchronized States
+  const [heroConfig, setHeroConfig] = useState(() =>
+    loadFromStorage('marko_hero_config', INITIAL_HERO_CONFIG)
+  );
+  const [products, setProducts] = useState(() =>
+    loadFromStorage('marko_products', PRODUCTS)
+  );
+  const [orders, setOrders] = useState(() =>
+    loadFromStorage('marko_orders', INITIAL_ORDERS)
+  );
+  const [papers, setPapers] = useState(() =>
+    loadFromStorage('marko_papers', RESEARCH_PAPERS)
+  );
+  const [gallery, setGallery] = useState(() =>
+    loadFromStorage('marko_gallery', PULSE_GALLERY)
+  );
+  const [messages, setMessages] = useState(() =>
+    loadFromStorage('marko_messages', INITIAL_MESSAGES)
+  );
 
+  // Persist to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_hero_config', JSON.stringify(heroConfig));
+    } catch {}
+  }, [heroConfig]);
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_products', JSON.stringify(products));
+    } catch {}
+  }, [products]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_orders', JSON.stringify(orders));
+    } catch {}
+  }, [orders]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_papers', JSON.stringify(papers));
+    } catch {}
+  }, [papers]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_gallery', JSON.stringify(gallery));
+    } catch {}
+  }, [gallery]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('marko_messages', JSON.stringify(messages));
+    } catch {}
+  }, [messages]);
+
+  // Dedicated Page States
+  const [activeProductId, setActiveProductId] = useState(null);
+  const [activeResearchPage, setActiveResearchPage] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    return path === '/admin' || path.endsWith('/admin') || hash === '#/admin' || hash === '#admin';
+  });
+
+  useEffect(() => {
+    const checkAdminRoute = () => {
+      const path = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+      setIsAdminOpen(
+        path === '/admin' || path.endsWith('/admin') || hash === '#/admin' || hash === '#admin'
+      );
+    };
+
+    window.addEventListener('popstate', checkAdminRoute);
+    window.addEventListener('hashchange', checkAdminRoute);
+    return () => {
+      window.removeEventListener('popstate', checkAdminRoute);
+      window.removeEventListener('hashchange', checkAdminRoute);
+    };
+  }, []);
+
+  // Modal States
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const activeProductPage = activeProductId
+    ? products.find((p) => p.id === activeProductId) || null
+    : null;
+
+  const openProductLandingPage = (product) => {
+    setActiveResearchPage(false);
+    setIsAdminOpen(false);
+    setActiveProductId(product ? product.id : null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const openResearchLandingPage = () => {
+    setActiveProductId(null);
+    setIsAdminOpen(false);
+    setActiveResearchPage(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePlaceOrder = (newOrder) => {
+    setOrders((prev) => [newOrder, ...prev]);
+  };
+
+  const handleSendMessage = (msgData) => {
+    const newMsg = {
+      id: `MSG-${Math.floor(110 + Math.random() * 900)}`,
+      createdAt: new Date().toISOString().slice(0, 16).replace('T', ' '),
+      name: msgData.name,
+      email: msgData.email,
+      industry: msgData.industry || 'General Inquiry',
+      message: msgData.message,
+      status: 'Unread',
+    };
+    setMessages((prev) => [newMsg, ...prev]);
+  };
+
+  const handleResetDefaults = () => {
+    setHeroConfig(INITIAL_HERO_CONFIG);
+    setProducts(PRODUCTS);
+    setOrders(INITIAL_ORDERS);
+    setPapers(RESEARCH_PAPERS);
+    setGallery(PULSE_GALLERY);
+    setMessages(INITIAL_MESSAGES);
+    try {
+      localStorage.removeItem('marko_hero_config');
+      localStorage.removeItem('marko_products');
+      localStorage.removeItem('marko_orders');
+      localStorage.removeItem('marko_papers');
+      localStorage.removeItem('marko_gallery');
+      localStorage.removeItem('marko_messages');
+    } catch {}
+  };
+
+  const scrollToSection = (sectionId) => {
+    setActiveNav(sectionId);
+    setMobileMenuOpen(false);
+
+    if (activeProductPage || activeResearchPage || isAdminOpen) {
+      setActiveProductId(null);
+      setActiveResearchPage(false);
+      setIsAdminOpen(false);
+      setTimeout(() => {
+        if (sectionId === 'contact') {
+          document
+            .getElementById('cta-section')
+            ?.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        else window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 40);
+      return;
+    }
+
+    if (sectionId === 'contact') {
+      const el = document.getElementById('cta-section');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+    }
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  if (isAdminOpen) {
+    return (
+      <AdminPanel
+        heroConfig={heroConfig}
+        setHeroConfig={setHeroConfig}
+        products={products}
+        setProducts={setProducts}
+        orders={orders}
+        setOrders={setOrders}
+        papers={papers}
+        setPapers={setPapers}
+        gallery={gallery}
+        setGallery={setGallery}
+        messages={messages}
+        setMessages={setMessages}
+        onResetDefaults={handleResetDefaults}
+        onExitAdmin={() => {
+          setIsAdminOpen(false);
+          if (typeof window !== 'undefined') {
+            window.history.pushState({}, '', '/');
+          }
+        }}
+      />
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col bg-white text-[#0F172A]">
+      <Navbar
+        activeNav={activeNav}
+        activeProductPage={activeProductPage}
+        activeResearchPage={activeResearchPage}
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
+        scrollToSection={scrollToSection}
+      />
+
+      {activeProductPage ? (
+        <ProductLandingPage
+          product={activeProductPage}
+          allProducts={products}
+          onBack={() => setActiveProductId(null)}
+          onSelectProduct={openProductLandingPage}
+          onPlaceOrder={handlePlaceOrder}
+        />
+      ) : activeResearchPage ? (
+        <ResearchLandingPage
+          papers={papers}
+          onBack={() => setActiveResearchPage(false)}
+        />
+      ) : (
+        <main className="flex-1">
+          <HeroSection
+            scrollToSection={scrollToSection}
+            heroConfig={heroConfig}
+          />
+          <ProductSpectrumSection
+            products={products}
+            openProductLandingPage={openProductLandingPage}
+          />
+          <AboutSection openResearchLandingPage={openResearchLandingPage} />
+          <CompanyPulseSection
+            gallery={gallery}
+            setSelectedEvent={setSelectedEvent}
+            scrollToSection={scrollToSection}
+          />
+          <CtaSection onSendMessage={handleSendMessage} />
+        </main>
+      )}
+
+      <Footer
+        products={products}
+        scrollToSection={scrollToSection}
+        openProductLandingPage={openProductLandingPage}
+        openResearchLandingPage={openResearchLandingPage}
+        setShowContactModal={setShowContactModal}
+      />
+
+      <PhotoPreviewModal
+        event={selectedEvent}
+        onClose={() => setSelectedEvent(null)}
+      />
+
+      <ContactModal
+        isOpen={showContactModal}
+        onClose={() => setShowContactModal(false)}
+      />
+    </div>
+  );
+}
