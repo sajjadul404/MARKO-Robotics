@@ -319,8 +319,41 @@ function resolveIconType(src = '', alt = '') {
   return 'pulse';
 }
 
-export default function ResilientImage({ src, alt, className, fallbackTitle }) {
-  const iconType = resolveIconType(src, fallbackTitle || alt);
+export default function ResilientImage({
+  src,
+  alt,
+  className,
+  fallbackTitle,
+  iconType: explicitIconType,
+}) {
+  const [imgError, setImgError] = React.useState(false);
+
+  React.useEffect(() => {
+    setImgError(false);
+  }, [src]);
+
+  const isCustomImageUrl =
+    src &&
+    typeof src === 'string' &&
+    !src.startsWith('/src/assets/images/') &&
+    (src.startsWith('http://') ||
+      src.startsWith('https://') ||
+      src.startsWith('data:image/') ||
+      src.startsWith('/'));
+
+  if (isCustomImageUrl && !imgError) {
+    return (
+      <img
+        src={src}
+        alt={alt || fallbackTitle || 'MARKO System'}
+        onError={() => setImgError(true)}
+        className={className || 'w-full h-full object-cover object-center'}
+      />
+    );
+  }
+
+  const iconType =
+    explicitIconType || resolveIconType(src, fallbackTitle || alt);
   const label = fallbackTitle || alt || 'MARKO System';
 
   return (
