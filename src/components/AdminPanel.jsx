@@ -120,7 +120,7 @@ export default function AdminPanel({
       numericPrice: 1000,
       description: '',
       longDescription: '',
-      image: '/src/assets/images/product_ai_brain_1791063713710.jpg',
+      image: 'ai-bot',
       specsText:
         'Enterprise hardware & software integration\n24/7 autonomous telemetry monitoring\n3-Year MARKO Enterprise SLA',
       metrics: [
@@ -194,7 +194,7 @@ export default function AdminPanel({
       authors: 'MARKO Robotics Research Group',
       date: 'October 2026',
       category: 'Robotics & AI Systems',
-      image: '/src/assets/images/about_blueprint_schematic_1791063749796.jpg',
+      image: 'blueprint',
       description: '',
       paperUrl: 'https://arxiv.org/abs/2303.04137',
       findingsText:
@@ -247,7 +247,7 @@ export default function AdminPanel({
       category: 'Engineering Showcase',
       date: 'November 2026',
       location: 'Dhaka, Bangladesh',
-      image: '/src/assets/images/pulse_robotics_engineers_1791063795254.jpg',
+      image: 'pulse',
       summary: '',
     });
   };
@@ -419,7 +419,7 @@ export default function AdminPanel({
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-slate-700 hover:bg-slate-800 text-xs font-semibold text-slate-300 cursor-pointer transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset Demo Data</span>
+            <span>Reset Default Settings</span>
           </button>
           <button
             onClick={onExitAdmin}
@@ -604,6 +604,11 @@ export default function AdminPanel({
                   </button>
                 </div>
 
+                {orders.length === 0 ? (
+                  <div className="p-10 text-center text-xs text-slate-500">
+                    No customer orders placed yet. New orders from the product checkout will appear here automatically.
+                  </div>
+                ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
@@ -679,6 +684,7 @@ export default function AdminPanel({
                     </tbody>
                   </table>
                 </div>
+                )}
               </div>
             </>
           )}
