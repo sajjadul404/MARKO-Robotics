@@ -1,8 +1,11 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import ResilientImage from './ResilientImage.jsx';
+import { INITIAL_HERO_CONFIG } from '../data/siteData.js';
 
-export default function HeroSection({ scrollToSection }) {
+export default function HeroSection({ scrollToSection, heroConfig }) {
+  const config = { ...INITIAL_HERO_CONFIG, ...(heroConfig || {}) };
+
   return (
     <section
       id="home"
@@ -15,12 +18,11 @@ export default function HeroSection({ scrollToSection }) {
             className="text-[40px] sm:text-[50px] lg:text-[54px] font-extrabold text-[#0F172A] leading-[1.08] tracking-[-0.025em] mb-6"
             style={{ textWrap: 'balance' }}
           >
-            Building Technology for What’s Next
+            {config.heading}
           </h1>
 
           <p className="text-[15px] sm:text-[16px] text-slate-500 leading-[1.65] max-w-[490px] mb-9 font-normal">
-            MARKO Robotics creates innovative AI, robotics, and technology
-            solutions designed to shape a smarter, more productive future.
+            {config.subheading}
           </p>
 
           <div className="flex flex-wrap items-center gap-3.5">
@@ -28,7 +30,7 @@ export default function HeroSection({ scrollToSection }) {
               onClick={() => scrollToSection('products')}
               className="inline-flex items-center gap-2.5 bg-[#0066FF] hover:bg-[#0052CC] text-white text-[13px] font-semibold px-6 py-3.5 rounded-[8px] transition-all cursor-pointer whitespace-nowrap shadow-xs"
             >
-              <span>Explore Products</span>
+              <span>{config.primaryButtonText}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
 
@@ -36,18 +38,19 @@ export default function HeroSection({ scrollToSection }) {
               onClick={() => scrollToSection('about')}
               className="inline-flex items-center justify-center bg-white hover:bg-slate-50 text-[#0F172A] border border-slate-300 text-[13px] font-semibold px-6 py-3.5 rounded-[8px] transition-colors cursor-pointer whitespace-nowrap"
             >
-              Discover MARKO
+              {config.secondaryButtonText}
             </button>
           </div>
         </div>
 
-        {/* Right Column: Hero Robot Image */}
+        {/* Right Column: Hero Robot Showcase Card */}
         <div className="lg:col-span-6">
           <div className="w-full aspect-[4/3.1] rounded-[20px] overflow-hidden bg-slate-900 shadow-lg border border-slate-200/60">
             <ResilientImage
-              src="/src/assets/images/hero_humanoid_robot_1791063702192.jpg"
-              alt="AEGIS-7 Next-Gen Humanoid Robotics System"
-              fallbackTitle="AEGIS-7 Humanoid Intelligent System"
+              src={config.imageUrl}
+              alt={config.cardSubtitle || config.cardTitle}
+              fallbackTitle={config.cardTitle}
+              iconType={config.iconType}
               className="w-full h-full object-cover object-center"
             />
           </div>
