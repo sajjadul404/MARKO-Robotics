@@ -9,7 +9,7 @@ export const PRODUCTS = [
       'Engineered for high-throughput commercial operations, the MARKO AI Bot combines deterministic multi-agent orchestration with zero-retention enterprise encryption. Deploy across customer operations, internal engineering desks, and automated supply chain dispatch with sub-120ms latency.',
     price: '$1,499',
     numericPrice: 1499,
-    image: '/src/assets/images/product_ai_brain_1791063713710.jpg',
+    image: 'ai-bot',
     specs: [
       'Multi-agent deterministic workflow execution',
       'Zero-retention enterprise data encryption (SOC2 Type II)',
@@ -55,7 +55,7 @@ export const PRODUCTS = [
       'Constructed with aerospace-grade titanium-aluminum composite linkages and optical torque sensors on every joint, MARKO Robotics arms deliver 0.02mm repeatability under continuous 24/7 industrial workloads. Ready for cleanroom laboratories, PCB assembly, and high-density fulfillment centers.',
     price: '$12,900',
     numericPrice: 12900,
-    image: '/src/assets/images/product_robotics_arm_1791063726622.jpg',
+    image: 'robotics',
     specs: [
       '6-axis & 7-axis force-torque feedback articulation',
       '0.02mm repeatability tolerance under full payload',
@@ -101,7 +101,7 @@ export const PRODUCTS = [
       'Transform commercial buildings, factories, and logistics hubs into self-optimizing environments. The MARKO Smart Technology suite combines ultra-low-power spatial sensor nodes with an edge-computed digital twin hub for real-time energy, occupancy, and equipment telemetry.',
     price: '$3,250',
     numericPrice: 3250,
-    image: '/src/assets/images/product_smart_iot_1791063737178.jpg',
+    image: 'smart-tech',
     specs: [
       'Mesh telemetry across up to 10,000 spatial nodes',
       'Predictive HVAC, power, and assembly load balancing',
@@ -146,7 +146,7 @@ export const PULSE_GALLERY = [
     date: 'October 14, 2026',
     location: 'Silicon Valley, CA',
     category: 'Campus Tour',
-    image: '/src/assets/images/pulse_lobby_office_1791063761034.jpg',
+    image: 'pulse',
     summary:
       'Inside our flagship architectural hub where hardware systems engineers and AI researchers collaborate under one roof.',
   },
@@ -156,7 +156,7 @@ export const PULSE_GALLERY = [
     date: 'November 02, 2026',
     location: 'Silicon Valley, CA',
     category: 'Engineering Workshop',
-    image: '/src/assets/images/pulse_team_collaboration_1791063772409.jpg',
+    image: 'blueprint',
     summary:
       'Cross-disciplinary systems architects finalizing structural schematics for modular industrial automation deployments.',
   },
@@ -166,7 +166,7 @@ export const PULSE_GALLERY = [
     date: 'December 09, 2026',
     location: 'San Francisco, CA',
     category: 'Keynote Summit',
-    image: '/src/assets/images/pulse_global_forum_1791063783270.jpg',
+    image: 'pulse',
     summary:
       'Annual keynote unveiling new reasoning engine benchmarks and autonomous manufacturing partnerships for global enterprises.',
   },
@@ -176,7 +176,7 @@ export const PULSE_GALLERY = [
     date: 'January 18, 2027',
     location: 'Palo Alto, CA',
     category: 'Live Demonstration',
-    image: '/src/assets/images/pulse_robotics_engineers_1791063795254.jpg',
+    image: 'robotics',
     summary:
       'Hands-on calibration and stress-testing of fine-motor robotic manipulators engineered for laboratory automation.',
   },
@@ -191,7 +191,7 @@ export const RESEARCH_PAPERS = [
     date: 'September 2026',
     category: 'Mechatronics & Control Systems',
     readTime: '14 min read',
-    image: '/src/assets/images/about_blueprint_schematic_1791063749796.jpg',
+    image: 'blueprint',
     description:
       'This paper presents the mechanical and algorithmic architecture behind the Aegis-7 robotic hand and manipulator assembly. By combining optical harmonic-drive strain gauges with a 2kHz closed-loop control bus, our system eliminates micro-oscillations during high-speed pick-and-place and fragile laboratory handling.',
     keyFindings: [
@@ -209,7 +209,7 @@ export const RESEARCH_PAPERS = [
     date: 'July 2026',
     category: 'Artificial Intelligence & Reasoning',
     readTime: '11 min read',
-    image: '/src/assets/images/product_ai_brain_1791063713710.jpg',
+    image: 'ai-bot',
     description:
       'Enterprise automation requires reasoning models that never hallucinate unsafe hardware states or leak proprietary telemetry. We introduce a formally verified planner that translates natural-language operational directives into deterministic state-machine execution graphs.',
     keyFindings: [
@@ -227,7 +227,7 @@ export const RESEARCH_PAPERS = [
     date: 'May 2026',
     category: 'Spatial Computing & IoT',
     readTime: '9 min read',
-    image: '/src/assets/images/product_smart_iot_1791063737178.jpg',
+    image: 'smart-tech',
     description:
       'Large-scale commercial and manufacturing facilities suffer from RF interference and sensor drift. This study details our self-healing sub-GHz and Wi-Fi 6E spatial node mesh capable of synchronizing 10,000+ acoustic, thermal, and optical sensors into a unified 3D digital twin.',
     keyFindings: [
@@ -239,59 +239,7 @@ export const RESEARCH_PAPERS = [
   },
 ];
 
-export const INITIAL_ORDERS = [
-  {
-    id: 'MRK-4092',
-    createdAt: '2026-10-06 14:20',
-    productId: 'robotics',
-    productTitle: 'Robotics',
-    quantity: 1,
-    totalAmount: 12900,
-    fullName: 'Sajjadul Islam',
-    email: '20244103008@cse.bubt.edu.bd',
-    company: 'BUBT Robotics Lab',
-    phone: '01560060092',
-    address: 'Mirpur-2, Dhaka, Bangladesh',
-    paymentMethod: 'bKash',
-    senderNumber: '01711849200',
-    transactionId: 'BKS849201X',
-    status: 'Verified',
-  },
-  {
-    id: 'MRK-4091',
-    createdAt: '2026-10-05 18:45',
-    productId: 'ai-bot',
-    productTitle: 'AI Bot',
-    quantity: 2,
-    totalAmount: 2998,
-    fullName: 'Tanvir Ahmed',
-    email: 'tanvir@apexautomation.io',
-    company: 'Apex Industrial Labs',
-    phone: '01819540320',
-    address: 'Gulshan-2, Dhaka, Bangladesh',
-    paymentMethod: 'Nagad',
-    senderNumber: '01819540320',
-    transactionId: 'NGD738291X',
-    status: 'Pending',
-  },
-  {
-    id: 'MRK-4090',
-    createdAt: '2026-10-04 11:10',
-    productId: 'smart-tech',
-    productTitle: 'Smart Technology',
-    quantity: 1,
-    totalAmount: 3250,
-    fullName: 'Dr. Elena Vance',
-    email: 'elena@synthesis.ai',
-    company: 'Synthesis Operations',
-    phone: '+1 (415) 890-2341',
-    address: '450 Automation Parkway, San Jose, CA',
-    paymentMethod: 'VISA',
-    senderNumber: '4532 •••• 8891',
-    transactionId: 'VISA-992041',
-    status: 'Shipped',
-  },
-];
+export const INITIAL_ORDERS = [];
 
 export const INITIAL_HERO_CONFIG = {
   heading: 'Building Technology for What’s Next',
@@ -305,26 +253,5 @@ export const INITIAL_HERO_CONFIG = {
   imageUrl: '',
 };
 
-export const INITIAL_MESSAGES = [
-  {
-    id: 'MSG-101',
-    createdAt: '2026-10-06 12:15',
-    name: 'Rafiqul Hasan',
-    email: 'rafiqul@dhakatech.com',
-    industry: 'Robotics & Automation',
-    message:
-      'We are looking to deploy 3 Aegis-7 robotic arms for our PCB assembly line in Gazipur. Could we schedule a technical demo this week?',
-    status: 'Unread',
-  },
-  {
-    id: 'MSG-102',
-    createdAt: '2026-10-05 09:30',
-    name: 'Nusrat Jahan',
-    email: 'nusrat@neuralworks.bd',
-    industry: 'AI Bot Platform',
-    message:
-      'Interested in integrating MARKO AI Bot with our existing ERP and warehouse inventory system.',
-    status: 'Resolved',
-  },
-];
+export const INITIAL_MESSAGES = [];
 
