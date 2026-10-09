@@ -81,7 +81,7 @@ export default function ContactModal({ isOpen, onClose }) {
                     E-mail
                   </div>
                   <div className="text-[14.5px] font-semibold text-slate-800 group-hover:text-[#0066FF] transition-colors">
-                    sajjaduli724@gmail.com
+                    markoroboticsbd@gmail.com
                   </div>
                 </div>
               </a>
@@ -99,7 +99,7 @@ export default function ContactModal({ isOpen, onClose }) {
                     Phone number
                   </div>
                   <div className="text-[14.5px] font-semibold text-slate-800 group-hover:text-[#0066FF] transition-colors tabular-nums">
-                    01560060092
+                    +8801521459434
                   </div>
                 </div>
               </a>
