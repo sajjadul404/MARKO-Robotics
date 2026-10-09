@@ -720,60 +720,7 @@ export default function AdminPanel({
 
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 mb-1">
-                        Showcase Card Title (Displayed below the icon) *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={heroForm.cardTitle}
-                        onChange={(e) =>
-                          setHeroForm({
-                            ...heroForm,
-                            cardTitle: e.target.value,
-                          })
-                        }
-                        placeholder="AEGIS-7 Humanoid Intelligent System"
-                        className="w-full px-3.5 py-2 text-sm rounded-lg bg-white border border-slate-300 focus:border-[#0066FF] focus:outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                        Select SVG Icon Style
-                      </label>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                        {[
-                          { id: 'hero', label: 'Humanoid Robot' },
-                          { id: 'ai-bot', label: 'AI Neural Core' },
-                          { id: 'robotics', label: 'Robotic Arm' },
-                          { id: 'smart-tech', label: 'Smart IoT Mesh' },
-                          { id: 'blueprint', label: 'Tech Blueprint' },
-                          { id: 'pulse', label: 'System Pulse' },
-                        ].map((opt) => (
-                          <button
-                            key={opt.id}
-                            type="button"
-                            onClick={() =>
-                              setHeroForm({ ...heroForm, iconType: opt.id })
-                            }
-                            className={`px-3 py-2.5 rounded-lg text-xs font-bold border text-left transition-all cursor-pointer flex items-center justify-between ${
-                              heroForm.iconType === opt.id
-                                ? 'bg-[#0066FF] text-white border-[#0066FF] shadow-xs'
-                                : 'bg-white text-slate-700 border-slate-200 hover:border-blue-300'
-                            }`}
-                          >
-                            <span>{opt.label}</span>
-                            {heroForm.iconType === opt.id && (
-                              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                            )}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">
-                        Custom Image URL (Optional — Leave blank to use SVG Icon)
+                        Hero Showcase Image URL
                       </label>
                       <input
                         type="text"
@@ -784,13 +731,12 @@ export default function AdminPanel({
                             imageUrl: e.target.value,
                           })
                         }
-                        placeholder="https://example.com/your-robot-photo.jpg"
+                        placeholder="https://example.com/your-photo.jpg"
                         className="w-full px-3.5 py-2 text-sm rounded-lg bg-white border border-slate-300 focus:border-[#0066FF] focus:outline-none"
                       />
                       <p className="text-[11px] text-slate-500 mt-1">
-                        If you paste a direct image link (`https://...`), it will
-                        replace the SVG box. Clear it anytime to switch back to
-                        the SVG icon.
+                        Paste a direct image link (`https://...`) to display in
+                        the right-side hero card.
                       </p>
                     </div>
                   </div>
