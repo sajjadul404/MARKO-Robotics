@@ -335,9 +335,6 @@ export default function App() {
         setGallery={setGallery}
         messages={messages}
         setMessages={setMessages}
-        supabaseStatus={supabaseStatus}
-        onLoadFromSupabase={loadFromSupabase}
-        onPushAllToSupabase={pushAllDataToSupabase}
         onResetDefaults={handleResetDefaults}
         onExitAdmin={() => {
           setIsAdminOpen(false);
