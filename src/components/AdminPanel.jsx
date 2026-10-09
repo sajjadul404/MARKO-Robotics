@@ -1495,6 +1495,35 @@ export default function AdminPanel({
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Paper Cover / Schematic Image URL
+                </label>
+                <input
+                  type="text"
+                  value={editingPaper.image || ''}
+                  onChange={(e) =>
+                    setEditingPaper({
+                      ...editingPaper,
+                      image: e.target.value,
+                    })
+                  }
+                  placeholder="https://example.com/research-figure.jpg"
+                  className="w-full px-3.5 py-2 text-sm rounded-lg border border-slate-300 focus:border-[#0066FF] focus:outline-none"
+                />
+                <p className="text-[11px] text-slate-500 mt-1">
+                  Paste a direct image link (`https://...`) to display on the left side of the research paper card.
+                </p>
+                <div className="mt-2.5 w-36 aspect-[4/3] rounded-lg overflow-hidden bg-[#0B2545] border border-slate-200">
+                  <ResilientImage
+                    src={editingPaper.image}
+                    alt={editingPaper.title || 'Paper Preview'}
+                    fallbackTitle={editingPaper.title || 'Paper Preview'}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
                   Description / Abstract *
                 </label>
                 <textarea
