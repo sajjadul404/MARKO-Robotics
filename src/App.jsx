@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   PRODUCTS,
   PULSE_GALLERY,
@@ -12,6 +12,10 @@ import {
   INITIAL_MESSAGES,
   INITIAL_HERO_CONFIG,
 } from './data/siteData.js';
+import {
+  fetchAllSiteDataFromSupabase,
+  upsertSiteKeyToSupabase,
+} from './lib/supabaseClient.js';
 import Navbar from './components/Navbar.jsx';
 import HeroSection from './components/HeroSection.jsx';
 import ProductSpectrumSection from './components/ProductSpectrumSection.jsx';
@@ -69,40 +73,131 @@ export default function App() {
     loadFromStorage('marko_messages', INITIAL_MESSAGES)
   );
 
-  // Persist to localStorage
+  // Supabase connection state
+  const [supabaseStatus, setSupabaseStatus] = useState({
+    connected: false,
+    loading: false,
+    error: null,
+  });
+  const isInitialCloudLoad = useRef(true);
+
+  const loadFromSupabase = async () => {
+    setSupabaseStatus((prev) => ({ ...prev, loading: true, error: null }));
+    const res = await fetchAllSiteDataFromSupabase();
+    if (!res.connected) {
+      setSupabaseStatus({
+        connected: false,
+        loading: false,
+        error: res.error === 'Not configured' ? null : res.error,
+      });
+      isInitialCloudLoad.current = false;
+      return false;
+    }
+
+    const remote = res.data || {};
+    isInitialCloudLoad.current = true;
+    if (remote.marko_hero_config) setHeroConfig(remote.marko_hero_config);
+    if (Array.isArray(remote.marko_products)) setProducts(remote.marko_products);
+    if (Array.isArray(remote.marko_orders)) {
+      setOrders(remote.marko_orders.filter((o) => !DEMO_ORDER_IDS.has(o.id)));
+    }
+    if (Array.isArray(remote.marko_papers)) setPapers(remote.marko_papers);
+    if (Array.isArray(remote.marko_gallery)) setGallery(remote.marko_gallery);
+    if (Array.isArray(remote.marko_messages)) {
+      setMessages(
+        remote.marko_messages.filter((m) => !DEMO_MESSAGE_IDS.has(m.id))
+      );
+    }
+
+    setSupabaseStatus({ connected: true, loading: false, error: null });
+    setTimeout(() => {
+      isInitialCloudLoad.current = false;
+    }, 100);
+    return true;
+  };
+
+  useEffect(() => {
+    loadFromSupabase();
+  }, []);
+
+  const pushAllDataToSupabase = async () => {
+    setSupabaseStatus((prev) => ({ ...prev, loading: true, error: null }));
+    const entries = [
+      ['marko_hero_config', heroConfig],
+      ['marko_products', products],
+      ['marko_orders', orders],
+      ['marko_papers', papers],
+      ['marko_gallery', gallery],
+      ['marko_messages', messages],
+    ];
+    for (const [key, val] of entries) {
+      const result = await upsertSiteKeyToSupabase(key, val);
+      if (!result.ok) {
+        setSupabaseStatus({
+          connected: false,
+          loading: false,
+          error: result.error,
+        });
+        return { ok: false, error: result.error };
+      }
+    }
+    setSupabaseStatus({ connected: true, loading: false, error: null });
+    return { ok: true, error: null };
+  };
+
+  // Persist to localStorage & Supabase when connected
   useEffect(() => {
     try {
       localStorage.setItem('marko_hero_config', JSON.stringify(heroConfig));
     } catch {}
+    if (!isInitialCloudLoad.current && supabaseStatus.connected) {
+      upsertSiteKeyToSupabase('marko_hero_config', heroConfig);
+    }
   }, [heroConfig]);
+
   useEffect(() => {
     try {
       localStorage.setItem('marko_products', JSON.stringify(products));
     } catch {}
+    if (!isInitialCloudLoad.current && supabaseStatus.connected) {
+      upsertSiteKeyToSupabase('marko_products', products);
+    }
   }, [products]);
 
   useEffect(() => {
     try {
       localStorage.setItem('marko_orders', JSON.stringify(orders));
     } catch {}
+    if (!isInitialCloudLoad.current && supabaseStatus.connected) {
+      upsertSiteKeyToSupabase('marko_orders', orders);
+    }
   }, [orders]);
 
   useEffect(() => {
     try {
       localStorage.setItem('marko_papers', JSON.stringify(papers));
     } catch {}
+    if (!isInitialCloudLoad.current && supabaseStatus.connected) {
+      upsertSiteKeyToSupabase('marko_papers', papers);
+    }
   }, [papers]);
 
   useEffect(() => {
     try {
       localStorage.setItem('marko_gallery', JSON.stringify(gallery));
     } catch {}
+    if (!isInitialCloudLoad.current && supabaseStatus.connected) {
+      upsertSiteKeyToSupabase('marko_gallery', gallery);
+    }
   }, [gallery]);
 
   useEffect(() => {
     try {
       localStorage.setItem('marko_messages', JSON.stringify(messages));
     } catch {}
+    if (!isInitialCloudLoad.current && supabaseStatus.connected) {
+      upsertSiteKeyToSupabase('marko_messages', messages);
+    }
   }, [messages]);
 
   // Dedicated Page States
@@ -240,6 +335,9 @@ export default function App() {
         setGallery={setGallery}
         messages={messages}
         setMessages={setMessages}
+        supabaseStatus={supabaseStatus}
+        onLoadFromSupabase={loadFromSupabase}
+        onPushAllToSupabase={pushAllDataToSupabase}
         onResetDefaults={handleResetDefaults}
         onExitAdmin={() => {
           setIsAdminOpen(false);
