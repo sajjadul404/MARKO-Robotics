@@ -96,17 +96,31 @@ export default function App() {
 
     const remote = res.data || {};
     isInitialCloudLoad.current = true;
-    if (remote.marko_hero_config) setHeroConfig(remote.marko_hero_config);
-    if (Array.isArray(remote.marko_products)) setProducts(remote.marko_products);
-    if (Array.isArray(remote.marko_orders)) {
-      setOrders(remote.marko_orders.filter((o) => !DEMO_ORDER_IDS.has(o.id)));
-    }
-    if (Array.isArray(remote.marko_papers)) setPapers(remote.marko_papers);
-    if (Array.isArray(remote.marko_gallery)) setGallery(remote.marko_gallery);
-    if (Array.isArray(remote.marko_messages)) {
-      setMessages(
-        remote.marko_messages.filter((m) => !DEMO_MESSAGE_IDS.has(m.id))
-      );
+    const hasRemoteData = Object.keys(remote).length > 0;
+
+    if (hasRemoteData) {
+      if (remote.marko_hero_config) setHeroConfig(remote.marko_hero_config);
+      if (Array.isArray(remote.marko_products)) setProducts(remote.marko_products);
+      if (Array.isArray(remote.marko_orders)) {
+        setOrders(remote.marko_orders.filter((o) => !DEMO_ORDER_IDS.has(o.id)));
+      }
+      if (Array.isArray(remote.marko_papers)) setPapers(remote.marko_papers);
+      if (Array.isArray(remote.marko_gallery)) setGallery(remote.marko_gallery);
+      if (Array.isArray(remote.marko_messages)) {
+        setMessages(
+          remote.marko_messages.filter((m) => !DEMO_MESSAGE_IDS.has(m.id))
+        );
+      }
+    } else {
+      // First-time connection with empty table: seed initial site data into Supabase
+      await Promise.all([
+        upsertSiteKeyToSupabase('marko_hero_config', heroConfig),
+        upsertSiteKeyToSupabase('marko_products', products),
+        upsertSiteKeyToSupabase('marko_orders', orders),
+        upsertSiteKeyToSupabase('marko_papers', papers),
+        upsertSiteKeyToSupabase('marko_gallery', gallery),
+        upsertSiteKeyToSupabase('marko_messages', messages),
+      ]);
     }
 
     setSupabaseStatus({ connected: true, loading: false, error: null });

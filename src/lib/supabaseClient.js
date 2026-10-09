@@ -5,8 +5,12 @@ import { createClient } from '@supabase/supabase-js';
  * 1. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file, OR
  * 2. Paste your Project URL and Anon Key directly in SUPABASE_URL and SUPABASE_ANON_KEY below.
  */
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const SUPABASE_URL =
+  import.meta.env.VITE_SUPABASE_URL ||
+  'https://iytalqdhrywqmyvblvni.supabase.co';
+const SUPABASE_ANON_KEY =
+  import.meta.env.VITE_SUPABASE_ANON_KEY ||
+  'sb_publishable_vBuOn_uFv3MQkmdis6xmfA_m6wlg5xD';
 
 export const supabase =
   SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_URL.startsWith('http')
