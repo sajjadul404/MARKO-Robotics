@@ -5,7 +5,6 @@ export default function Footer({
   scrollToSection,
   openProductLandingPage,
   openResearchLandingPage,
-  setShowContactModal,
 }) {
   return (
     <footer className="bg-[#080F1E] text-slate-400 pt-16 pb-12 border-t border-slate-800/80">
@@ -49,7 +48,7 @@ export default function Footer({
                 { label: 'Home', action: () => scrollToSection('home') },
                 { label: 'About', action: () => scrollToSection('about') },
                 { label: 'Events', action: () => scrollToSection('events') },
-                { label: 'Careers', action: () => setShowContactModal(true) },
+                { label: 'Careers', action: () => scrollToSection('contact') },
                 { label: 'Press', action: openResearchLandingPage },
               ].map((link) => (
                 <li key={link.label}>
@@ -96,7 +95,7 @@ export default function Footer({
               </li>
               <li>
                 <button
-                  onClick={() => setShowContactModal(true)}
+                  onClick={() => scrollToSection('contact')}
                   className="text-slate-400 hover:text-white transition-colors cursor-pointer"
                 >
                   Consulting Suites
@@ -118,10 +117,6 @@ export default function Footer({
             </p>
             <a
               href="mailto:sajjaduli724@gmail.com"
-              onClick={(e) => {
-                e.preventDefault();
-                setShowContactModal(true);
-              }}
               className="text-[12.5px] text-slate-400 hover:text-white transition-colors break-all"
             >
               sajjaduli724@gmail.com
