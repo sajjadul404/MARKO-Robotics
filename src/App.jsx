@@ -25,8 +25,6 @@ import CtaSection from './components/CtaSection.jsx';
 import Footer from './components/Footer.jsx';
 import ProductLandingPage from './components/ProductLandingPage.jsx';
 import ResearchLandingPage from './components/ResearchLandingPage.jsx';
-import PhotoPreviewModal from './components/PhotoPreviewModal.jsx';
-import ContactModal from './components/ContactModal.jsx';
 import AdminPanel from './components/AdminPanel.jsx';
 
 const DEMO_ORDER_IDS = new Set(['MRK-4092', 'MRK-4091', 'MRK-4090']);
@@ -241,10 +239,6 @@ export default function App() {
     };
   }, []);
 
-  // Modal States
-  const [showContactModal, setShowContactModal] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-
   const activeProductPage = activeProductId
     ? products.find((p) => p.id === activeProductId) || null
     : null;
@@ -395,11 +389,7 @@ export default function App() {
             openProductLandingPage={openProductLandingPage}
           />
           <AboutSection openResearchLandingPage={openResearchLandingPage} />
-          <CompanyPulseSection
-            gallery={gallery}
-            setSelectedEvent={setSelectedEvent}
-            scrollToSection={scrollToSection}
-          />
+          <CompanyPulseSection gallery={gallery} />
           <CtaSection onSendMessage={handleSendMessage} />
         </main>
       )}
@@ -409,17 +399,6 @@ export default function App() {
         scrollToSection={scrollToSection}
         openProductLandingPage={openProductLandingPage}
         openResearchLandingPage={openResearchLandingPage}
-        setShowContactModal={setShowContactModal}
-      />
-
-      <PhotoPreviewModal
-        event={selectedEvent}
-        onClose={() => setSelectedEvent(null)}
-      />
-
-      <ContactModal
-        isOpen={showContactModal}
-        onClose={() => setShowContactModal(false)}
       />
     </div>
   );

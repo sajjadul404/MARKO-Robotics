@@ -1,11 +1,7 @@
 import React from 'react';
 import ResilientImage from './ResilientImage.jsx';
 
-export default function CompanyPulseSection({
-  gallery,
-  setSelectedEvent,
-  scrollToSection,
-}) {
+export default function CompanyPulseSection({ gallery }) {
   return (
     <section id="events" className="pt-24 pb-16 md:pt-28 md:pb-20">
       <div className="max-w-[1200px] mx-auto px-6 text-center mb-12">
@@ -26,8 +22,7 @@ export default function CompanyPulseSection({
           {gallery.map((item) => (
             <div
               key={item.id}
-              onClick={() => setSelectedEvent(item)}
-              className="group relative w-full aspect-[16/7.6] rounded-[14px] overflow-hidden bg-slate-900 cursor-pointer shadow-xs"
+              className="group relative w-full aspect-[16/7.6] rounded-[14px] overflow-hidden bg-slate-900 shadow-xs"
             >
               <ResilientImage
                 src={item.image}
@@ -43,16 +38,6 @@ export default function CompanyPulseSection({
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="mt-11 text-center">
-          <button
-            type="button"
-            onClick={() => scrollToSection('events')}
-            className="inline-flex items-center justify-center px-6 py-2.5 rounded-[8px] border border-slate-300 bg-white hover:bg-slate-50 text-[#0F172A] text-[12.5px] font-semibold transition-colors cursor-pointer whitespace-nowrap"
-          >
-            See More
-          </button>
         </div>
       </div>
     </section>
